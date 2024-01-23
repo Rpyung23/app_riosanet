@@ -1,3 +1,4 @@
+import 'package:app_riosanet/page/session_page.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 import '../util/dimens.dart';
@@ -37,7 +38,10 @@ class LoginPage extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('home_client_page');
+              /*Navigator.of(context)
+                  .pushNamed("session_page", arguments: {"tipo_": 1});*/
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => SessionPage(tipo_: 1)));
             },
             child: Text(
               txt_client,
@@ -56,7 +60,10 @@ class LoginPage extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed("home_client_page");
+                /*Navigator.of(context)
+                    .pushNamed("session_page", arguments: {"tipo_": 0});*/
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => SessionPage(tipo_: 0)));
               },
               child: Text(txt_technical,
                   style: TextStyle(color: color_white, fontSize: textMedium)),

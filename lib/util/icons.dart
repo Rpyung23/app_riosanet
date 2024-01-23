@@ -18,3 +18,11 @@ IconData icon_data_profile = Iconsax.user;
 IconData icon_data_invoice = Iconsax.wallet;
 IconData icon_data_support = Iconsax.music_play5;
 IconData icon_data_plann = Iconsax.airdrop;
+IconData icon_warning = Iconsax.warning_2;
+IconData icon_domicilio = Iconsax.programming_arrow;
+
+const Icon icon_user = Icon(Iconsax.user);
+const Icon icon_pass = Icon(Iconsax.password_check);
+
+const Icon icon_phone = Icon(Iconsax.call_calling);
+const Icon icon_routing = Icon(Iconsax.routing);

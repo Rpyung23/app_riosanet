@@ -1,7 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../util/dimens.dart';
 import '../util/icons.dart';
@@ -19,6 +18,7 @@ class _BottomNavigationClientState extends State<BottomNavigationClient> {
     return AnimatedBottomNavigationBar(
         backgroundColor: color_white,
         elevation: elevation,
+        activeColor: color_secondary,
         icons: [
           icon_data_home,
           icon_data_plann,
@@ -28,6 +28,10 @@ class _BottomNavigationClientState extends State<BottomNavigationClient> {
         activeIndex: 0,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,
-        onTap: (index) {});
+        onTap: (index) {
+          if (index == 3) {
+            Navigator.of(context).pushNamed('profile_page');
+          }
+        });
   }
 }

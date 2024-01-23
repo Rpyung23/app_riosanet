@@ -183,6 +183,8 @@ class _HomeClientState extends State<HomeClient> {
 
   _getCardSpeedTest() {
     return Card(
+      color: color_white,
+      surfaceTintColor: color_white,
       child: Container(
         padding: EdgeInsets.all(marginSmallSmall),
         child: Column(

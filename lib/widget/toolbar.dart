@@ -2,7 +2,6 @@ import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 
 import '../util/dimens.dart';
-import '../util/icons.dart';
 import '../util/string.dart';
 
 class ToolBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -28,7 +27,7 @@ class ToolBarWidget extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: color_white),
       ),
       centerTitle: false,
-      actions: [IconButton(onPressed: () {}, icon: icon_notification)],
+      //actions: [IconButton(onPressed: () {}, icon: icon_notification)],
     );
   }
 }
