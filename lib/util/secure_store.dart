@@ -18,6 +18,25 @@ class SecureStore {
     }
   }
 
+  Future<bool> createProfile(profile) async {
+    try {
+      await oFlutterSecureStorage.write(key: profile_riosanet, value: profile);
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<dynamic> readProfile() async {
+    try {
+      return await oFlutterSecureStorage.read(key: profile_riosanet);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Future<dynamic> readToken() async {
     try {
       return await oFlutterSecureStorage.read(key: secure_token);

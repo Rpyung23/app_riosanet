@@ -14,3 +14,7 @@ const url_login_client = "${url_base}/login_client";
 const url_install_all_pen = "${url_base}/install_pen_all";
 
 const url_fail_all_pen = "${url_base}/fail_all_pen";
+
+const url_fail_all_pen_client = "${url_base}/fail_all_client";
+
+const url_update_domiclio_client = "${url_base}/transfers_all_client";

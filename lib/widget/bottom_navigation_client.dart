@@ -21,8 +21,8 @@ class _BottomNavigationClientState extends State<BottomNavigationClient> {
         activeColor: color_secondary,
         icons: [
           icon_data_home,
-          icon_data_plann,
-          icon_data_invoice,
+          icon_warning,
+          icon_domicilio,
           icon_data_profile
         ],
         activeIndex: 0,
@@ -31,6 +31,13 @@ class _BottomNavigationClientState extends State<BottomNavigationClient> {
         onTap: (index) {
           if (index == 3) {
             Navigator.of(context).pushNamed('profile_page');
+          }
+          if (index == 1) {
+            Navigator.of(context).pushNamed('fail_client_page');
+          }
+
+          if (index == 2) {
+            Navigator.of(context).pushNamed('update_domiclio_client_page');
           }
         });
   }

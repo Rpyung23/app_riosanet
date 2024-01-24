@@ -1,11 +1,13 @@
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 
+import '../model/login/data_login_model.dart';
 import '../util/dimens.dart';
 import '../util/string.dart';
 
 class ToolBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  ToolBarWidget({super.key});
+  DatosLoginModel? oDatosLoginModel;
+  ToolBarWidget({required this.oDatosLoginModel});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -19,11 +21,15 @@ class ToolBarWidget extends StatelessWidget implements PreferredSizeWidget {
         margin: EdgeInsets.all(marginSmallSmall),
         child: CircleAvatar(
           radius: radioContainer,
-          child: Text("T"),
+          child: Text(this.oDatosLoginModel == null
+              ? "/"
+              : this.oDatosLoginModel!.nombre![0]),
         ),
       ),
       title: Text(
-        no_name,
+        this.oDatosLoginModel == null
+            ? no_name
+            : this.oDatosLoginModel!.nombre!,
         style: TextStyle(color: color_white),
       ),
       centerTitle: false,

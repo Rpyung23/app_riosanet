@@ -1,3 +1,4 @@
+import 'package:app_riosanet/page/client/home_client.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:app_riosanet/util/dimens.dart';
 import 'package:app_riosanet/util/icons.dart';
@@ -8,6 +9,7 @@ import '../model/login/login_model.dart';
 import '../provider/ProviderLogin.dart';
 import '../util/secure_store.dart';
 import '../util/string.dart';
+import 'user/install_pen_user.dart';
 
 class SessionPage extends StatefulWidget {
   SecureStore oSecureStore = new SecureStore();
@@ -124,8 +126,24 @@ class _SessionPageState extends State<SessionPage> {
 
     if (oLoginClientUserModel.statusCode == 200) {
       widget.oSecureStore.createToken(oLoginClientUserModel.token);
-      Navigator.of(context).pushNamed(
-          widget.tipo == 1 ? 'home_client_page' : 'install_pen_user_page');
+
+      widget.oSecureStore
+          .createProfile(oLoginClientUserModel.datos!.toRawJson());
+
+      if (widget.tipo == 1) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => HomeClient(
+                  oDatosLoginModel: oLoginClientUserModel.datos,
+                )));
+      } else {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => InstallPenUser(
+                  oDatosLoginModel: oLoginClientUserModel.datos,
+                )));
+      }
+
+      /*Navigator.of(context).pushNamed(
+          widget.tipo == 1 ? 'home_client_page' : 'install_pen_user_page');*/
     } else {
       Fluttertoast.showToast(
           msg: oLoginClientUserModel.msm!,

@@ -1,3 +1,4 @@
+import 'package:app_riosanet/page/client/domicilio_page.dart';
 import 'package:app_riosanet/page/client/home_client.dart';
 import 'package:app_riosanet/page/session_page.dart';
 import 'package:app_riosanet/page/speed_test_page.dart';
@@ -5,6 +6,7 @@ import 'package:app_riosanet/page/user/install_pen_user.dart';
 import 'package:flutter/material.dart';
 
 import '../util/color.dart';
+import 'client/fail_page.dart';
 import 'login_page.dart';
 import 'client/profile_page.dart';
 
@@ -30,12 +32,16 @@ class AppPage extends StatelessWidget {
         routes: {
           'speed_test_page': (_) => SpeedTestPage(),
           'login_page': (_) => LoginPage(),
-          'home_client_page': (_) => HomeClient(),
+          'home_client_page': (_) => HomeClient(
+                oDatosLoginModel: null,
+              ),
           'install_pen_user_page': (_) => InstallPenUser(),
           'session_page': (_) => SessionPage(
                 tipo_: 0,
               ),
           'profile_page': (_) => ProfilePage(),
+          'fail_client_page': (_) => FailClientPage(),
+          'update_domiclio_client_page': (_) => UpdateDomicilioPageClient()
         },
         initialRoute: 'login_page');
   }

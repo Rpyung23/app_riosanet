@@ -1,9 +1,11 @@
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../../model/login/data_login_model.dart';
 import '../../util/dimens.dart';
 import '../../util/string.dart';
 import '../../widget/bottom_navigation_client.dart';
@@ -11,7 +13,8 @@ import '../../widget/floatingbottonSupport.dart';
 import '../../widget/toolbar.dart';
 
 class HomeClient extends StatefulWidget {
-  HomeClient({super.key});
+  DatosLoginModel? oDatosLoginModel;
+  HomeClient({required this.oDatosLoginModel});
 
   @override
   State<HomeClient> createState() => _HomeClientState();
@@ -22,12 +25,12 @@ class _HomeClientState extends State<HomeClient> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: ToolBarWidget(),
+      appBar: ToolBarWidget(
+        oDatosLoginModel: widget.oDatosLoginModel,
+      ),
       body: Container(
         padding: EdgeInsets.only(
-            top: marginSmallSmall,
-            left: marginSmallSmall,
-            right: marginSmallSmall),
+            top: 0, left: marginSmallSmall, right: marginSmallSmall),
         child: _getBody(),
       ),
       floatingActionButton: getFloatingButtomSupport(),
@@ -39,6 +42,9 @@ class _HomeClientState extends State<HomeClient> {
   Widget _getBody() {
     return ListView(
       children: [
+        SizedBox(
+          height: marginSmallSmall,
+        ),
         _getPostInvoice(),
         SizedBox(
           height: marginSmallSmall,
@@ -61,20 +67,7 @@ class _HomeClientState extends State<HomeClient> {
                 child: Container(
                   margin:
                       EdgeInsets.only(top: marginSmall, bottom: marginSmall),
-                  child: CircularPercentIndicator(
-                    radius: 40.0,
-                    lineWidth: 7.0,
-                    percent: 0.7,
-                    center: Text(
-                      days_next_bill,
-                      style: TextStyle(
-                          fontSize: textBigBig,
-                          color: color_white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: color_white,
-                  ),
+                  child: Image.asset('./assets/help.png'),
                 ),
               )),
           Expanded(
@@ -127,55 +120,10 @@ class _HomeClientState extends State<HomeClient> {
           color: Colors.teal[200],
           child: const Text('Heed not the rabble'),
         ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[300],
-          child: const Text('Sound of screams but the'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[400],
-          child: const Text('Who scream'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[500],
-          child: const Text('Revolution is coming...'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[600],
-          child: const Text('Revolution, they...'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[100],
-          child: const Text("He'd have you all unravel at the"),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[200],
-          child: const Text('Heed not the rabble'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[300],
-          child: const Text('Sound of screams but the'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[400],
-          child: const Text('Who scream'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[500],
-          child: const Text('Revolution is coming...'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[600],
-          child: const Text('Revolution, they...'),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 4,
+          mainAxisCellCount: 2,
+          child: _getCarrusel(),
         ),
       ],
     );
@@ -217,6 +165,41 @@ class _HomeClientState extends State<HomeClient> {
           ],
         ),
       ),
+    );
+  }
+
+  _getCarrusel() {
+    return FlutterCarousel(
+      options: CarouselOptions(
+        height: 400.0,
+        showIndicator: true,
+        autoPlay: true,
+        slideIndicator: CircularSlideIndicator(),
+      ),
+      items: [
+        './assets/p2.jpeg',
+        './assets/p3.jpeg',
+        './assets/p4.jpeg',
+        './assets/p5.jpeg',
+        './assets/p1.jpeg'
+      ].map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(
+                    right: marginSmallSmall, bottom: marginSmall),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(radioSearch)),
+                child: Image.asset(
+                  i,
+                  fit: BoxFit.cover,
+                ));
+          },
+        );
+      }).toList(),
     );
   }
 }

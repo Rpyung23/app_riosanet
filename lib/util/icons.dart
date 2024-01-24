@@ -1,5 +1,6 @@
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:iconsax/iconsax.dart';
 
 const Icon icon_network = Icon(Iconsax.wifi);
@@ -26,3 +27,21 @@ const Icon icon_pass = Icon(Iconsax.password_check);
 
 const Icon icon_phone = Icon(Iconsax.call_calling);
 const Icon icon_routing = Icon(Iconsax.routing);
+
+Icon icon_add = Icon(
+  Iconsax.add,
+  color: HexColor("#FFFFFF"),
+);
+
+Icon icon_pen = Icon(
+  Iconsax.minus,
+  color: color_secondary,
+);
+Icon icon_check = Icon(
+  Iconsax.check,
+  color: color_success,
+);
+Icon icon_prog = Icon(
+  Iconsax.timer,
+  color: color_info,
+);
