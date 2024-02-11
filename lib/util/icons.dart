@@ -46,9 +46,17 @@ Icon icon_check = Icon(
   Icons.check,
   color: color_success,
 );
+
+Icon icon_check_white = Icon(
+  Icons.check,
+  color: color_white,
+);
+
 Icon icon_prog = Icon(
   Iconsax.timer,
   color: color_info,
 );
 
 Icon icon_task_square = Icon(Iconsax.task_square);
+
+Icon icon_map = Icon(Iconsax.map);

@@ -1,3 +1,4 @@
+import 'package:app_riosanet/page/client/mapa_client.dart';
 import 'package:app_riosanet/provider/ProviderTransfer.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import '../../util/icons.dart';
 import '../../util/string.dart';
 
 class UpdateDomicilioPageClient extends StatefulWidget {
+  final oGlobalKeyFail = GlobalKey<FormState>();
+
   TransferAllClientModel? oTransferAllClientModel;
 
   UpdateDomicilioPageClient({super.key});
@@ -49,7 +52,9 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _ShowCreateDomiclio();
+        },
         child: icon_add,
         backgroundColor: color_primary,
       ),
@@ -133,5 +138,117 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
           textColor: color_white,
           fontSize: textMedium);
     }
+  }
+
+  _ShowCreateDomiclio() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("CAMBIO DE DOMICLIO"),
+            backgroundColor: color_white,
+            surfaceTintColor: color_white,
+            content: Container(
+              child: _getAlert(),
+              width: double.maxFinite,
+            ),
+          );
+        });
+  }
+
+  _getAlert() {
+    return Form(
+        key: widget.oGlobalKeyFail,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            TextFormField(
+                autofocus: false,
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => MapClient()));
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return txt_ingrese_note;
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: hint_ubicacion,
+                    alignLabelWithHint: true,
+                    prefixIcon: icon_map,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder())),
+            SizedBox(
+              height: marginSmall,
+            ),
+            TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return txt_ingrese_note;
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: hint_telefono,
+                    alignLabelWithHint: true,
+                    prefixIcon: icon_phone,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder())),
+            SizedBox(
+              height: marginSmall,
+            ),
+            TextFormField(
+                maxLines: 2,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return txt_ingrese_note;
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: hint_referencia,
+                    alignLabelWithHint: true,
+                    prefixIcon: icon_task_square,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder())),
+            SizedBox(
+              height: marginSmall,
+            ),
+            TextFormField(
+                maxLines: 2,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return txt_ingrese_note;
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: hint_notes,
+                    alignLabelWithHint: true,
+                    prefixIcon: icon_task_square,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder())),
+            SizedBox(
+              height: marginMediumSmall,
+            ),
+            ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: color_primary,
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width, altoMedium)),
+                child: Text(
+                  text_save,
+                  style: TextStyle(fontSize: textBigMedium, color: color_white),
+                ))
+          ],
+        ));
   }
 }

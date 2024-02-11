@@ -18,6 +18,9 @@ const String txt_my_update_domicilio = "MIS CAMBIOS DE DOMICILIO";
 const String hint_user = "Ingrese su usuario";
 const String hint_pass = "Ingrese su contraseña";
 const String hint_notes = "Notas";
+const String hint_referencia = "Referencia";
+const String hint_ubicacion = "Ubicación";
+const String hint_telefono = "Teléfono";
 const String txt_ingrese_user = "Por favor, ingrese el usuario";
 const String txt_ingrese_pass = "Por favor, ingrese el contraseña";
 const String txt_ingrese_note = "Por favor, ingrese una nota";
@@ -29,3 +32,5 @@ const String profile_riosanet = "PROFILECLIENTUSERRIOSANET";
 
 const String confirmTxtButton = "Aceptar";
 const String cancelTxtButton = "Cancelar";
+
+const String oMarkerIdTxt = "MIPOSITION";
