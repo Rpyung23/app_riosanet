@@ -1,6 +1,7 @@
 import 'package:app_riosanet/page/app_page.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() 
+{
   runApp(AppPage());
 }

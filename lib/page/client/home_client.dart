@@ -1,11 +1,7 @@
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-
-import '../../model/login/data_login_model.dart';
 import '../../util/dimens.dart';
 import '../../util/string.dart';
 import '../../widget/bottom_navigation_client.dart';
@@ -13,8 +9,7 @@ import '../../widget/floatingbottonSupport.dart';
 import '../../widget/toolbar.dart';
 
 class HomeClient extends StatefulWidget {
-  DatosLoginModel? oDatosLoginModel;
-  HomeClient({required this.oDatosLoginModel});
+  HomeClient();
 
   @override
   State<HomeClient> createState() => _HomeClientState();
@@ -24,18 +19,19 @@ class _HomeClientState extends State<HomeClient> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      appBar: ToolBarWidget(
-        oDatosLoginModel: widget.oDatosLoginModel,
+        child: PopScope(
+      child: Scaffold(
+        appBar: ToolBarWidget(),
+        body: Container(
+          padding: EdgeInsets.only(
+              top: 0, left: marginSmallSmall, right: marginSmallSmall),
+          child: _getBody(),
+        ),
+        floatingActionButton: getFloatingButtomSupport(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomNavigationClient(),
       ),
-      body: Container(
-        padding: EdgeInsets.only(
-            top: 0, left: marginSmallSmall, right: marginSmallSmall),
-        child: _getBody(),
-      ),
-      floatingActionButton: getFloatingButtomSupport(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationClient(),
+      canPop: false,
     ));
   }
 

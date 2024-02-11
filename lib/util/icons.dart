@@ -28,6 +28,11 @@ const Icon icon_pass = Icon(Iconsax.password_check);
 const Icon icon_phone = Icon(Iconsax.call_calling);
 const Icon icon_routing = Icon(Iconsax.routing);
 
+Icon icon_trash = Icon(
+  Iconsax.trash,
+  color: color_danger,
+);
+
 Icon icon_add = Icon(
   Iconsax.add,
   color: HexColor("#FFFFFF"),
@@ -38,10 +43,12 @@ Icon icon_pen = Icon(
   color: color_secondary,
 );
 Icon icon_check = Icon(
-  Iconsax.check,
+  Icons.check,
   color: color_success,
 );
 Icon icon_prog = Icon(
   Iconsax.timer,
   color: color_info,
 );
+
+Icon icon_task_square = Icon(Iconsax.task_square);

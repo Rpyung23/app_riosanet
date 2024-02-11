@@ -131,15 +131,11 @@ class _SessionPageState extends State<SessionPage> {
           .createProfile(oLoginClientUserModel.datos!.toRawJson());
 
       if (widget.tipo == 1) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => HomeClient(
-                  oDatosLoginModel: oLoginClientUserModel.datos,
-                )));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => HomeClient()));
       } else {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => InstallPenUser(
-                  oDatosLoginModel: oLoginClientUserModel.datos,
-                )));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => InstallPenUser()));
       }
 
       /*Navigator.of(context).pushNamed(

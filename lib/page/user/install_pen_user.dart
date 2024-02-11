@@ -2,7 +2,6 @@ import 'package:app_riosanet/provider/ProviderInstall.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 import '../../model/install_pen_all/intall_pen_all_model.dart';
-import '../../model/login/data_login_model.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
 import '../../widget/bottom_navigation_user.dart';
@@ -10,10 +9,9 @@ import '../../widget/toolbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InstallPenUser extends StatefulWidget {
-  DatosLoginModel? oDatosLoginModel;
   InstallAllPenModel? oInstallAllPenModel;
 
-  InstallPenUser({this.oDatosLoginModel});
+  InstallPenUser();
 
   @override
   State<InstallPenUser> createState() => _InstallPenUserState();
@@ -31,9 +29,7 @@ class _InstallPenUserState extends State<InstallPenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: ToolBarWidget(
-        oDatosLoginModel: widget.oDatosLoginModel,
-      ),
+      appBar: ToolBarWidget(),
       body: Container(
         padding: EdgeInsets.only(
             top: marginSmallSmall,

@@ -30,9 +30,7 @@ class _FailPenUserState extends State<FailPenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: ToolBarWidget(
-        oDatosLoginModel: null,
-      ),
+      appBar: ToolBarWidget(),
       body: Container(
         padding: EdgeInsets.only(
             top: marginSmallSmall,

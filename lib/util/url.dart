@@ -18,3 +18,11 @@ const url_fail_all_pen = "${url_base}/fail_all_pen";
 const url_fail_all_pen_client = "${url_base}/fail_all_client";
 
 const url_update_domiclio_client = "${url_base}/transfers_all_client";
+
+const url_delete_fail = "${url_base}/delete_fail";
+
+const url_type_fail = "${url_base}/type_fail";
+
+const url_create_fail = "${url_base}/create_fail";
+
+const url_delete_transfer = "${url_base}/delete_transfers";

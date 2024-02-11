@@ -32,9 +32,7 @@ class AppPage extends StatelessWidget {
         routes: {
           'speed_test_page': (_) => SpeedTestPage(),
           'login_page': (_) => LoginPage(),
-          'home_client_page': (_) => HomeClient(
-                oDatosLoginModel: null,
-              ),
+          'home_client_page': (_) => HomeClient(),
           'install_pen_user_page': (_) => InstallPenUser(),
           'session_page': (_) => SessionPage(
                 tipo_: 0,
