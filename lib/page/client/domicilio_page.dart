@@ -3,6 +3,9 @@ import 'package:app_riosanet/provider/ProviderTransfer.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../model/model_response.dart';
 import '../../model/transfer_all_client/transfer_all_client.dart';
@@ -11,7 +14,14 @@ import '../../util/icons.dart';
 import '../../util/string.dart';
 
 class UpdateDomicilioPageClient extends StatefulWidget {
+  LatLng? oPosition;
+
   final oGlobalKeyFail = GlobalKey<FormState>();
+
+  TextEditingController oTextEditingControllerMapa = TextEditingController();
+  TextEditingController oTextEditingControllerTel = TextEditingController();
+  TextEditingController oTextEditingControllerRef = TextEditingController();
+  TextEditingController oTextEditingControllerNot = TextEditingController();
 
   TransferAllClientModel? oTransferAllClientModel;
 
@@ -164,14 +174,14 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
           children: [
             TextFormField(
                 autofocus: false,
+                controller: widget.oTextEditingControllerMapa,
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => MapClient()));
+                  _GetPositionDomicilio();
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return txt_ingrese_note;
+                    return txt_ingrese_dir;
                   }
                   return null;
                 },
@@ -186,12 +196,15 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
               height: marginSmall,
             ),
             TextFormField(
+                controller: widget.oTextEditingControllerTel,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return txt_ingrese_note;
+                    return txt_ingrese_tel;
                   }
                   return null;
                 },
+                keyboardType: TextInputType.number,
+                maxLength: 10,
                 decoration: InputDecoration(
                     hintText: hint_telefono,
                     alignLabelWithHint: true,
@@ -204,9 +217,10 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
             ),
             TextFormField(
                 maxLines: 2,
+                controller: widget.oTextEditingControllerRef,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return txt_ingrese_note;
+                    return txt_ingrese_ref;
                   }
                   return null;
                 },
@@ -222,6 +236,8 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
             ),
             TextFormField(
                 maxLines: 2,
+                controller: widget.oTextEditingControllerNot,
+                showCursor: false,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return txt_ingrese_note;
@@ -239,7 +255,9 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
               height: marginMediumSmall,
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _createDomicilio();
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: color_primary,
                     minimumSize:
@@ -250,5 +268,50 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
                 ))
           ],
         ));
+  }
+
+  _GetPositionDomicilio() async {
+    widget.oPosition = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => MapClient()));
+
+    if (widget.oPosition != null) {
+      /*List<Placemark> placemarks = await placemarkFromCoordinates(
+          widget.oPosition!.latitude, widget.oPosition!.longitude);*/
+
+      widget.oTextEditingControllerMapa.text =
+          (widget.oPosition!.latitude.toString() +
+              " " +
+              widget.oPosition!.longitude.toString());
+
+      /*widget.oTextEditingControllerMapa.text = placemarks.length > 0
+          ? (placemarks[0].thoroughfare! + "" + placemarks[1].thoroughfare!)
+          : "NO GEOCODER";*/
+    }
+  }
+
+  _createDomicilio() async {
+    if (widget.oGlobalKeyFail.currentState!.validate()) {
+      ModelResponse oM = await ProviderTransfer.createTransfer(
+          widget.oTextEditingControllerMapa.text,
+          widget.oTextEditingControllerTel.text,
+          widget.oTextEditingControllerRef.text,
+          widget.oTextEditingControllerNot.text,
+          widget.oPosition == null ? 0 : widget.oPosition!.latitude,
+          widget.oPosition == null ? 0 : widget.oPosition!.longitude);
+
+      if (oM.statusCode == 200) {
+        _clearAlert();
+        Navigator.of(context).pop();
+        _readApiTransferClient();
+      }
+    }
+  }
+
+  _clearAlert() {
+    widget.oPosition = null;
+    widget.oTextEditingControllerMapa.clear();
+    widget.oTextEditingControllerTel.clear();
+    widget.oTextEditingControllerRef.clear();
+    widget.oTextEditingControllerNot.clear();
   }
 }

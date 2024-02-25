@@ -27,6 +27,10 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
+        title: Text(
+          mi_perfil,
+          style: TextStyle(color: color_white),
+        ),
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();

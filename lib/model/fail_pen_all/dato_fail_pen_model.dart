@@ -37,13 +37,15 @@ class DatoFailPenAllModel {
         cedula: json["cedula"] == null ? 'S/N' : json["cedula"],
         tarea: json["tarea"] == null ? 'S/N' : json["tarea"],
         notaFallo: json["nota_fallo"] == null ? 'S/N' : json["nota_fallo"],
-        idTec: json["id_tec"],
-        nombreTecnico: json["nombre_tecnico"],
-        nombre: json["nombre"] == null ? 'S/N' : json["nombre"],
+        idTec: json["id_tec"] == null ? '' : json["id_tec"],
+        nombreTecnico: json["nombre_tecnico"] == null
+            ? "AUTOTECNICO"
+            : json["nombre_tecnico"],
+        nombre: json["nombre"] == null ? 'AUTOTECNICO' : json["nombre"],
         direccion: json["direccion"] == null ? 'S/N' : json["direccion"],
         latUsuario: json["lat_usuario"] == null ? 0 : json["lat_usuario"],
         lngUsuario: json["lng_usuario"] == null ? 0 : json["lng_usuario"],
-        movil: json["movil"] == null ? 0 : json["movil"],
+        movil: json["movil"] == null ? "" : json["movil"],
       );
 
   Map<String, dynamic> toJson() => {

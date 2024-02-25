@@ -26,3 +26,11 @@ const url_type_fail = "${url_base}/type_fail";
 const url_create_fail = "${url_base}/create_fail";
 
 const url_delete_transfer = "${url_base}/delete_transfers";
+
+const url_create_transfer = "${url_base}/create_transfers";
+
+const url_read_all_transfer = "${url_base}/transfers_pen_all";
+
+const url_update_estado_fail = "${url_base}/update_estado_fail";
+const url_update_estado_install = "${url_base}/update_estado_install";
+const url_update_estado_transfer = "${url_base}/update_estado_transfers";

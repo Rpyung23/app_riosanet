@@ -13,7 +13,7 @@ import '../../util/string.dart';
 
 class MapClient extends StatefulWidget {
   MapClient({super.key});
-  Position? oPosition;
+  LatLng? oPosition;
   final Set<Marker> markers = Set();
 
   //Marker oMarker = Marker(markerId: MarkerId(oMarkerIdTxt));
@@ -37,7 +37,6 @@ class _MapClientState extends State<MapClient> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _checkPermision();
   }
 
   @override
@@ -64,7 +63,7 @@ class _MapClientState extends State<MapClient> {
                   bottom: marginMediumSmall),
               child: ElevatedButton.icon(
                   onPressed: () {
-                    _determinePosition();
+                    _selectPosition();
                   },
                   icon: icon_check_white,
                   style: ElevatedButton.styleFrom(
@@ -92,6 +91,7 @@ class _MapClientState extends State<MapClient> {
       onMapCreated: (GoogleMapController controller) {
         widget._controller.complete(controller);
         widget.oGoogleMapController = controller;
+        _checkPermision();
       },
     );
   }
@@ -109,7 +109,10 @@ class _MapClientState extends State<MapClient> {
 
   _determinePosition() async {
     if (widget.oGoogleMapController != null) {
-      widget.oPosition = await Geolocator.getCurrentPosition();
+      Position oP = await Geolocator.getCurrentPosition();
+
+      widget.oPosition = LatLng(oP.latitude, oP.longitude);
+
       widget.oGoogleMapController!.moveCamera(CameraUpdate.newLatLngZoom(
           LatLng(widget.oPosition!.latitude, widget.oPosition!.longitude), 17));
       widget.markers.clear();
@@ -117,9 +120,17 @@ class _MapClientState extends State<MapClient> {
       widget.markers.add(Marker(
           markerId: MarkerId(oMarkerIdTxt),
           draggable: true,
-          position:
-              LatLng(widget.oPosition!.latitude, widget.oPosition!.longitude)));
+          onDrag: (latlng) {
+            widget.oPosition = latlng;
+          },
+          position: widget.oPosition!));
       setState(() {});
     }
+  }
+
+  _selectPosition() {
+    //_TypeError (type 'LatLng' is not a subtype of type 'Position?' of 'result')
+
+    Navigator.of(context).pop(widget.oPosition);
   }
 }

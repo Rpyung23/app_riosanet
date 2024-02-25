@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import '../../model/fail_pen_all/fail_pen_all_model.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
-import '../../widget/bottom_navigation_user.dart';
-import '../../widget/toolbar.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,16 +28,13 @@ class _FailPenUserState extends State<FailPenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: ToolBarWidget(),
-      body: Container(
-        padding: EdgeInsets.only(
-            top: marginSmallSmall,
-            left: marginSmallSmall,
-            right: marginSmallSmall),
-        child: RefreshIndicator(child: _getBody(), onRefresh: _refreshApi),
-      ),
-      bottomNavigationBar: BottomNavigationUser(index_bottom_: 1),
-    ));
+            body: Container(
+      padding: EdgeInsets.only(
+          top: marginSmallSmall,
+          left: marginSmallSmall,
+          right: marginSmallSmall),
+      child: RefreshIndicator(child: _getBody(), onRefresh: _refreshApi),
+    )));
   }
 
   Widget _getBody() {
@@ -88,6 +83,7 @@ class _FailPenUserState extends State<FailPenUser> {
 
   _initReadFailPenAll() async {
     widget.oFailAllPenModel = null;
+    print("FALLOS TECNICO");
     widget.oFailAllPenModel = await ProviderFail.readFailPenAll();
     setState(() {});
   }

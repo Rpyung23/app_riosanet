@@ -1,4 +1,5 @@
 import 'package:app_riosanet/page/client/home_client.dart';
+import 'package:app_riosanet/page/user/home_user.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:app_riosanet/util/dimens.dart';
 import 'package:app_riosanet/util/icons.dart';
@@ -135,7 +136,7 @@ class _SessionPageState extends State<SessionPage> {
             .push(MaterialPageRoute(builder: (_) => HomeClient()));
       } else {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => InstallPenUser()));
+            .push(MaterialPageRoute(builder: (_) => HomeUser()));
       }
 
       /*Navigator.of(context).pushNamed(

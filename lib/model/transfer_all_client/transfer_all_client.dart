@@ -71,13 +71,15 @@ class DatoTransferClient {
       DatoTransferClient(
         id: json["id"],
         cedula: json["cedula"],
-        nombre: json["nombre"],
+        nombre: json["nombre"] == null ? "AUTOTECNICO" : json["nombre"],
         cel: json["cel"],
         dir: json["dir"],
         ref: json["ref"],
-        latTraspaso: json["lat_traspaso"]?.toDouble(),
+        latTraspaso:
+            json["lat_traspaso"] == null ? 0 : json["lat_traspaso"]?.toDouble(),
         estado: json["estado"],
-        lngTraspaso: json["lng_traspaso"]?.toDouble(),
+        lngTraspaso:
+            json["lng_traspaso"] == null ? 0 : json["lng_traspaso"]?.toDouble(),
         idTec: json["id_tec"],
         nombreTecnico: json["nombre_tecnico"],
       );

@@ -1,11 +1,10 @@
 import 'package:app_riosanet/provider/ProviderInstall.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
+import '../../model/install_pen_all/dato_install_pen_model.dart';
 import '../../model/install_pen_all/intall_pen_all_model.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
-import '../../widget/bottom_navigation_user.dart';
-import '../../widget/toolbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InstallPenUser extends StatefulWidget {
@@ -29,16 +28,12 @@ class _InstallPenUserState extends State<InstallPenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: ToolBarWidget(),
       body: Container(
         padding: EdgeInsets.only(
             top: marginSmallSmall,
             left: marginSmallSmall,
             right: marginSmallSmall),
         child: RefreshIndicator(child: _getBody(), onRefresh: _refreshApi),
-      ),
-      bottomNavigationBar: BottomNavigationUser(
-        index_bottom_: 0,
       ),
     ));
   }
@@ -60,6 +55,7 @@ class _InstallPenUserState extends State<InstallPenUser> {
         }
 
         return _getItemInstallPen(
+            widget.oInstallAllPenModel!.datos![item],
             widget.oInstallAllPenModel!.datos![item].name,
             widget.oInstallAllPenModel!.datos![item].tarea,
             widget.oInstallAllPenModel!.datos![item].nombreTecnico,
@@ -68,9 +64,10 @@ class _InstallPenUserState extends State<InstallPenUser> {
     );
   }
 
-  _getItemInstallPen(name, tarea, tecnico, cel) {
+  _getItemInstallPen(oD, name, tarea, tecnico, cel) {
     return ListTile(
       title: Text(name),
+      contentPadding: EdgeInsets.all(0),
       subtitle: Text(tarea),
       leading: IconButton(
           onPressed: () {
