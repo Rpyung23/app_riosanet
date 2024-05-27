@@ -33,6 +33,11 @@ Icon icon_trash = Icon(
   color: color_danger,
 );
 
+Icon icon_close = Icon(
+  Iconsax.close_circle,
+  color: color_danger,
+);
+
 Icon icon_add = Icon(
   Iconsax.add,
   color: HexColor("#FFFFFF"),

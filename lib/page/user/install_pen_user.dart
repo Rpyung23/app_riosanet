@@ -1,6 +1,7 @@
 import 'package:app_riosanet/provider/ProviderInstall.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
+import 'package:signature/signature.dart';
 import '../../model/install_pen_all/dato_install_pen_model.dart';
 import '../../model/install_pen_all/intall_pen_all_model.dart';
 import '../../util/dimens.dart';
@@ -8,6 +9,11 @@ import '../../util/icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InstallPenUser extends StatefulWidget {
+  final SignatureController oSignatureController = SignatureController(
+    penStrokeWidth: 3,
+    penColor: color_white,
+    exportBackgroundColor: color_white,
+  );
   InstallAllPenModel? oInstallAllPenModel;
 
   InstallPenUser();
@@ -21,6 +27,7 @@ class _InstallPenUserState extends State<InstallPenUser> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    widget.oSignatureController.clear();
     _initReadInstallPenAll();
   }
 
@@ -66,6 +73,7 @@ class _InstallPenUserState extends State<InstallPenUser> {
 
   _getItemInstallPen(oD, name, tarea, tecnico, cel) {
     return ListTile(
+      dense: true,
       title: Text(name),
       contentPadding: EdgeInsets.all(0),
       subtitle: Text(tarea),
@@ -74,6 +82,9 @@ class _InstallPenUserState extends State<InstallPenUser> {
             launchUrl(Uri.parse('tel://$cel'));
           },
           icon: icon_phone),
+      onTap: () {
+        _showModalInstallTermin(oD);
+      },
     );
   }
 
@@ -85,5 +96,50 @@ class _InstallPenUserState extends State<InstallPenUser> {
 
   Future<void> _refreshApi() async {
     await _initReadInstallPenAll();
+  }
+
+  _showModalInstallTermin(DatoInstallPenAll oD) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("${oD.name}"),
+          content: Container(
+            child: _getSignaure(),
+            height: 250,
+            width: 250,
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                "GUARDAR",
+                style: TextStyle(color: color_white),
+              ),
+              style: ElevatedButton.styleFrom(backgroundColor: color_primary),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  _getSignaure() {
+    widget.oSignatureController.clear();
+    return Signature(
+      controller: widget.oSignatureController,
+      dynamicPressureSupported: true,
+      width: 300,
+      height: 300,
+      backgroundColor: color_black,
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.oSignatureController.dispose();
   }
 }

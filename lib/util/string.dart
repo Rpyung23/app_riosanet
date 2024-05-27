@@ -41,6 +41,7 @@ const String cancelTxtButton = "Cancelar";
 const String oMarkerIdTxt = "MIPOSITION";
 const String mi_perfil = "MI PERFIL";
 
+const String pndiente = "PENDIENTE";
 const String en_proceso = "EN PROCESO";
 const String en_terminado = "TERMINADO";
 

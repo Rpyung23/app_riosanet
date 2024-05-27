@@ -24,7 +24,19 @@ class _HomeUserState extends State<HomeUser> {
         child: PopScope(
       // ignore: sort_child_properties_last
       child: Scaffold(
-        appBar: ToolBarWidget(),
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: color_white),
+          backgroundColor: color_primary,
+          automaticallyImplyLeading: false,
+          title: Text(
+            widget.current_index == 0
+                ? "INSTALACIONES PENDIENTES"
+                : widget.current_index == 0
+                    ? "FALLOS PENDIENTES"
+                    : "CAMBIOS DE DOMICILIOS",
+            style: TextStyle(color: color_white),
+          ),
+        ),
         body: Container(
           padding: EdgeInsets.only(
               top: 0, left: marginSmallSmall, right: marginSmallSmall),

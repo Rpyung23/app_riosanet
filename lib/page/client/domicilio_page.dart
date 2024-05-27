@@ -87,6 +87,8 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
 
   _getItemTransfer(DatoTransferClient oDatoTransferClient) {
     return ListTile(
+      dense: true,
+      contentPadding: EdgeInsets.all(0),
       title: Text('CAMBIO DE DOMICLIO'),
       leading: oDatoTransferClient.estado == 3
           ? null
@@ -94,7 +96,7 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
               onPressed: () {
                 showAlertDeleteDomicilio(oDatoTransferClient.id!);
               },
-              icon: icon_trash),
+              icon: icon_close),
       subtitle: Text(oDatoTransferClient!.dir!),
       enabled: oDatoTransferClient.estado == 3 ? false : true,
       trailing: oDatoTransferClient.estado == 1

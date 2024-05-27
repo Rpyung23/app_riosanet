@@ -81,6 +81,8 @@ class _FailClientPageState extends State<FailClientPage> {
 
   _getItemFail(DatoFailAllPenClientModel oDatoFailAllPenClientModel) {
     return ListTile(
+      dense: true,
+      contentPadding: EdgeInsets.all(0),
       enabled: oDatoFailAllPenClientModel.estado == 3 ? false : true,
       leading: oDatoFailAllPenClientModel.estado == 3
           ? null
@@ -88,14 +90,14 @@ class _FailClientPageState extends State<FailClientPage> {
               onPressed: () {
                 showAlertDeleteFail(oDatoFailAllPenClientModel.id!);
               },
-              icon: icon_trash),
+              icon: icon_close),
       title: Text(oDatoFailAllPenClientModel!.tarea!),
       subtitle: Text(oDatoFailAllPenClientModel!.direccion!),
-      trailing: oDatoFailAllPenClientModel.estado == 1
+      /*trailing: oDatoFailAllPenClientModel.estado == 1
           ? icon_pen
           : oDatoFailAllPenClientModel.estado == 2
               ? icon_prog
-              : icon_check,
+              : icon_check,*/
     );
   }
 

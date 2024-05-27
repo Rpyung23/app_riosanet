@@ -45,8 +45,8 @@ class DatoFailAllPenClientModel {
   String? nombre;
   String? direccion;
   String? movil;
-  double? latUsuario;
-  double? lngUsuario;
+  String? latUsuario;
+  String? lngUsuario;
   int? estado;
 
   DatoFailAllPenClientModel({
@@ -80,8 +80,8 @@ class DatoFailAllPenClientModel {
         nombre: json["nombre"],
         direccion: json["direccion"],
         movil: json["movil"],
-        latUsuario: json["lat_usuario"]?.toDouble(),
-        lngUsuario: json["lng_usuario"]?.toDouble(),
+        latUsuario: json["lat_usuario"],
+        lngUsuario: json["lng_usuario"],
         estado: json["estado"],
       );
 

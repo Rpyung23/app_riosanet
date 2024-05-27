@@ -58,14 +58,16 @@ class _FailPenUserState extends State<FailPenUser> {
             widget.oFailAllPenModel!.datos![item].tarea,
             widget.oFailAllPenModel!.datos![item].nombreTecnico,
             widget.oFailAllPenModel!.datos![item].movil,
-            widget.oFailAllPenModel!.datos![item].latUsuario,
-            widget.oFailAllPenModel!.datos![item].lngUsuario);
+            double.parse(widget.oFailAllPenModel!.datos![item].latUsuario!),
+            double.parse(widget.oFailAllPenModel!.datos![item].lngUsuario!));
       },
     );
   }
 
   _getItemFailPen(name, tarea, tecnico, cel, lat, lng) {
     return ListTile(
+      dense: true,
+      contentPadding: EdgeInsets.all(0),
       title: Text(name),
       subtitle: Text(tarea),
       trailing: IconButton(

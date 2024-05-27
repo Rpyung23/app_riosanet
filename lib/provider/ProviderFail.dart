@@ -16,7 +16,7 @@ class ProviderFail {
       headersApi['x-access-token'] = await oSecureStore.readToken();
       http.Response oResponse =
           await http.get(Uri.parse(url_fail_all_pen), headers: headersApi);
-      //print(oResponse.body);
+      print(oResponse.body);
       return FailAllPenModel.fromRawJson(oResponse.body);
     } catch (e) {
       print(e.toString());

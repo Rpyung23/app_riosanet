@@ -84,7 +84,15 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(tarea),
-          Visibility(
+          Chip(
+            label: Text(
+              oT.estado == 2 ? en_proceso : pndiente,
+              style:
+                  TextStyle(color: oT.estado == 2 ? color_white : color_black),
+            ),
+            backgroundColor: oT.estado == 2 ? color_primary : color_secondary,
+          ),
+          /*Visibility(
               visible: oT.estado == 2,
               child: Chip(
                 label: Text(
@@ -92,7 +100,7 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
                   style: TextStyle(color: color_white),
                 ),
                 backgroundColor: color_primary,
-              ))
+              ))*/
         ],
       ),
       onTap: () {
