@@ -65,3 +65,5 @@ Icon icon_prog = Icon(
 Icon icon_task_square = Icon(Iconsax.task_square);
 
 Icon icon_map = Icon(Iconsax.map);
+
+Icon icon_see = Icon(Iconsax.eye);

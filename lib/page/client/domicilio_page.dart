@@ -99,11 +99,11 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
               icon: icon_close),
       subtitle: Text(oDatoTransferClient!.dir!),
       enabled: oDatoTransferClient.estado == 3 ? false : true,
-      trailing: oDatoTransferClient.estado == 1
+      /*trailing: oDatoTransferClient.estado == 1
           ? icon_pen
           : oDatoTransferClient.estado == 2
               ? icon_prog
-              : icon_check,
+              : icon_check,*/
     );
   }
 

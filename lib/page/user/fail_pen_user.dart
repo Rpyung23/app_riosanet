@@ -65,21 +65,30 @@ class _FailPenUserState extends State<FailPenUser> {
   }
 
   _getItemFailPen(name, tarea, tecnico, cel, lat, lng) {
-    return ListTile(
-      dense: true,
-      contentPadding: EdgeInsets.all(0),
-      title: Text(name),
-      subtitle: Text(tarea),
-      trailing: IconButton(
-          onPressed: () {
-            openMap(lat, lng);
-          },
-          icon: icon_routing),
-      leading: IconButton(
+    return Column(
+      children: [
+        ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.all(0),
+          title: Text(tarea),
+          subtitle: Text(name == null ? "TICKET CLIENTE" : "TECNICO : ${name}"),
+          trailing: IconButton(
+              onPressed: () {
+                openMap(lat, lng);
+              },
+              icon: icon_see),
+          /*leading: IconButton(
           onPressed: () {
             launchUrl(Uri.parse('tel://$cel'));
           },
-          icon: icon_phone),
+          icon: icon_phone),*/
+        ),
+        Divider(
+          height: 1,
+          thickness: 1,
+          color: color_primary,
+        )
+      ],
     );
   }
 

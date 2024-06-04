@@ -76,46 +76,35 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
 
   _getItemTransferPen(
       DatoTransferAllPen oT, name, tarea, tecnico, cel, lat, lng) {
-    return ListTile(
-      title: Text(name == null ? "AUTOTECNICO" : name),
-      contentPadding: EdgeInsets.all(0),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(tarea),
-          Chip(
-            label: Text(
-              oT.estado == 2 ? en_proceso : pndiente,
-              style:
-                  TextStyle(color: oT.estado == 2 ? color_white : color_black),
-            ),
-            backgroundColor: oT.estado == 2 ? color_primary : color_secondary,
-          ),
-          /*Visibility(
-              visible: oT.estado == 2,
-              child: Chip(
-                label: Text(
-                  en_proceso,
-                  style: TextStyle(color: color_white),
-                ),
-                backgroundColor: color_primary,
-              ))*/
-        ],
-      ),
-      onTap: () {
-        _showAlertProgress(oT);
-      },
-      trailing: IconButton(
-          onPressed: () {
-            openMap(lat, lng);
-          },
-          icon: icon_routing),
+    return Column(
+      children: [
+        ListTile(
+            title: Text(tarea == null ? "SIN TAREA" : tarea),
+            contentPadding: EdgeInsets.all(0),
+            dense: true,
+            subtitle:
+                Text(name == null ? "TICKET CLIENTE" : "TECNICO : ${name}"),
+            onTap: () {
+              _showAlertProgress(oT);
+            },
+            trailing: IconButton(
+                onPressed: () {
+                  openMap(lat, lng);
+                },
+                icon:
+                    icon_see) /*,
       leading: IconButton(
           onPressed: () {
             launchUrl(Uri.parse('tel://$cel'));
           },
-          icon: icon_phone),
+          icon: icon_phone),*/
+            ),
+        Divider(
+          height: 1,
+          thickness: 1,
+          color: color_primary,
+        )
+      ],
     );
   }
 

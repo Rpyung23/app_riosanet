@@ -72,19 +72,24 @@ class _InstallPenUserState extends State<InstallPenUser> {
   }
 
   _getItemInstallPen(oD, name, tarea, tecnico, cel) {
-    return ListTile(
-      dense: true,
-      title: Text(name),
-      contentPadding: EdgeInsets.all(0),
-      subtitle: Text(tarea),
-      leading: IconButton(
-          onPressed: () {
-            launchUrl(Uri.parse('tel://$cel'));
+    return Column(
+      children: [
+        ListTile(
+          dense: true,
+          title: Text(name),
+          contentPadding: EdgeInsets.all(0),
+          subtitle: Text(tarea),
+          trailing: IconButton(
+              onPressed: () {
+                launchUrl(Uri.parse('tel://$cel'));
+              },
+              icon: icon_see),
+          onTap: () {
+            _showModalInstallTermin(oD);
           },
-          icon: icon_phone),
-      onTap: () {
-        _showModalInstallTermin(oD);
-      },
+        ),
+        Divider(height: 1, thickness: 1, color: color_primary)
+      ],
     );
   }
 

@@ -184,6 +184,7 @@ class _FailClientPageState extends State<FailClientPage> {
                     ),
                     TextFormField(
                         maxLines: 3,
+                        textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return txt_ingrese_note;
