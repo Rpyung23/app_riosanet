@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 
 import '../util/color.dart';
 import 'client/fail_page.dart';
+import 'client/tip_page.dart';
 import 'login_page.dart';
 import 'client/profile_page.dart';
+import 'update_password.dart';
 
 class AppPage extends StatelessWidget {
   AppPage({super.key});
@@ -30,7 +32,9 @@ class AppPage extends StatelessWidget {
             fontFamily: 'Avenir'),
         debugShowCheckedModeBanner: false,
         routes: {
+          'update_pass': (_) => UpdatePasswordPage(),
           'speed_test_page': (_) => SpeedTestPage(),
+          'tip_page': (_) => TipPage(),
           'login_page': (_) => LoginPage(),
           'home_client_page': (_) => HomeClient(),
           'install_pen_user_page': (_) => InstallPenUser(),

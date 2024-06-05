@@ -10,6 +10,7 @@ import '../model/login/login_model.dart';
 import '../provider/ProviderLogin.dart';
 import '../util/secure_store.dart';
 import '../util/string.dart';
+import 'update_password.dart';
 import 'user/install_pen_user.dart';
 
 class SessionPage extends StatefulWidget {
@@ -132,11 +133,15 @@ class _SessionPageState extends State<SessionPage> {
           .createProfile(oLoginClientUserModel.datos!.toRawJson());
 
       if (widget.tipo == 1) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => HomeClient()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => oLoginClientUserModel.datos!.firstLogin == 1
+                ? UpdatePasswordPage()
+                : HomeClient()));
       } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => HomeUser()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => oLoginClientUserModel.datos!.firstLogin == 1
+                ? UpdatePasswordPage()
+                : HomeUser()));
       }
 
       /*Navigator.of(context).pushNamed(

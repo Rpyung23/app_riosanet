@@ -85,7 +85,9 @@ class _HomeClientState extends State<HomeClient> {
                         right: marginSmallSmall,
                         left: marginSmallSmall),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("tip_page");
+                      },
                       child: Text(
                         see_invoice,
                         style: TextStyle(
