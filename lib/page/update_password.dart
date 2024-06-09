@@ -1,14 +1,29 @@
 import 'package:app_riosanet/util/color.dart';
+import 'package:app_riosanet/util/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:iconsax/iconsax.dart';
+
+import '../model/model_response.dart';
+import '../provider/ProviderLogin.dart';
+import '../util/dimens.dart';
+import 'client/home_client.dart';
+import 'user/home_user.dart';
 
 class UpdatePasswordPage extends StatefulWidget {
-  const UpdatePasswordPage({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
+
+  String token;
+  int tipo;
+  TextEditingController oTextEditingController = TextEditingController();
+  TextEditingController oTextEditingConfirmController = TextEditingController();
+
+  UpdatePasswordPage({required this.token, required this.tipo});
   @override
   State<UpdatePasswordPage> createState() => _MyHomepageState();
 }
 
 class _MyHomepageState extends State<UpdatePasswordPage> {
-  final _formKey = GlobalKey<FormState>();
   // regular expression to check if string
   RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
   double password_strength = 0;
@@ -73,14 +88,15 @@ class _MyHomepageState extends State<UpdatePasswordPage> {
 
   _getFormPassword() {
     return Form(
-      key: _formKey,
+      key: widget._formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
+            controller: widget.oTextEditingController,
             onChanged: (value) {
-              _formKey.currentState!.validate();
+              widget._formKey.currentState!.validate();
             },
             validator: (value) {
               if (value!.isEmpty) {
@@ -97,13 +113,46 @@ class _MyHomepageState extends State<UpdatePasswordPage> {
               }
             },
             decoration: InputDecoration(
-                border: OutlineInputBorder(), hintText: "Contraseña"),
+                prefixIcon: Icon(
+                  Iconsax.password_check,
+                  color: Colors.black,
+                ),
+                isDense: true,
+                contentPadding: EdgeInsets.all(0),
+                border: OutlineInputBorder(),
+                hintText: "Contraseña"),
           ),
           SizedBox(height: 10),
           TextFormField(
-            onChanged: (value) {},
+            controller: widget.oTextEditingConfirmController,
+            validator: (value) {
+              if (widget.oTextEditingConfirmController.value.text.isNotEmpty) {
+                if (widget.oTextEditingController.value.text.trim() ==
+                    widget.oTextEditingConfirmController.value.text.trim()) {
+                  return null;
+                }
+
+                return 'Contraseñas no coinciden';
+              }
+            },
+            onChanged: (value) {
+              if (widget.oTextEditingController.value.text.trim() ==
+                  widget.oTextEditingConfirmController.value.text.trim()) {
+                setState(() {
+                  widget._formKey.currentState?.validate();
+                });
+              } else {
+                setState(() {
+                  widget._formKey.currentState?.validate();
+                });
+              }
+            },
             decoration: InputDecoration(
-                border: OutlineInputBorder(), hintText: "Confirmar contraseña"),
+                isDense: true,
+                contentPadding: EdgeInsets.all(0),
+                prefixIcon: Icon(Iconsax.password_check),
+                border: OutlineInputBorder(),
+                hintText: "Confirmar contraseña"),
           ),
           SizedBox(height: 15),
           LinearProgressIndicator(
@@ -131,7 +180,7 @@ class _MyHomepageState extends State<UpdatePasswordPage> {
                       onPressed: password_strength != 1
                           ? null
                           : () {
-                              //perform click event
+                              _updateTokenPassword();
                             },
                       child: Text(
                         "Actualizar",
@@ -142,5 +191,35 @@ class _MyHomepageState extends State<UpdatePasswordPage> {
         ],
       ),
     );
+  }
+
+  _updateTokenPassword() async {
+    if (!widget._formKey.currentState!.validate()) {
+      return;
+    }
+
+    ModelResponse oModelResponse = await ProviderLogin.updatePasswordProvider(
+        widget.tipo,
+        widget.token,
+        widget.oTextEditingController.value.text.trim());
+
+    if (oModelResponse.statusCode == 200) {
+      if (widget.tipo == 1) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => HomeClient()));
+      } else {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => HomeUser()));
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: oModelResponse.msm!,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: color_danger,
+          textColor: color_white,
+          fontSize: textMedium);
+    }
   }
 }

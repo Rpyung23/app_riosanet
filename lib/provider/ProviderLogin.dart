@@ -3,7 +3,25 @@ import 'package:http/http.dart' as http;
 import 'package:app_riosanet/model/login/login_model.dart';
 import 'package:app_riosanet/util/url.dart';
 
+import '../model/model_response.dart';
+
 class ProviderLogin {
+  static Future<ModelResponse> updatePasswordProvider(tipo, token, pass) async {
+    try {
+      headersApi['x-access-token'] = token;
+
+      http.Response oR = await http.put(
+          Uri.parse(tipo == 1 ? url_update_password : url_update_password_user),
+          headers: headersApi,
+          encoding: encondingApi,
+          body: jsonEncode({'pass': pass}));
+      print(oR.body);
+      return ModelResponse.fromRawJson(oR.body);
+    } catch (e) {
+      return ModelResponse(statusCode: 400, msm: e.toString());
+    }
+  }
+
   static Future<LoginClientUserModel> loginProvider(user, pass, tipo) async {
     print("USUARIO : ${user}");
     print("PASS : ${pass}");

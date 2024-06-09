@@ -67,6 +67,8 @@ class _SessionPageState extends State<SessionPage> {
               controller: widget.oTextEditingControllerUser,
               decoration: InputDecoration(
                   hintText: hint_user,
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(0),
                   prefixIcon: icon_user,
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: color_primary)),
@@ -89,6 +91,8 @@ class _SessionPageState extends State<SessionPage> {
               },
               decoration: InputDecoration(
                   hintText: hint_pass,
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(0),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: color_primary)),
                   focusedBorder: OutlineInputBorder(
@@ -98,7 +102,7 @@ class _SessionPageState extends State<SessionPage> {
                   prefixIcon: icon_pass),
             ),
             SizedBox(
-              height: marginMedium,
+              height: 25,
             ),
             ElevatedButton(
               onPressed: () {
@@ -120,6 +124,7 @@ class _SessionPageState extends State<SessionPage> {
     if (!widget._formKeySession.currentState!.validate()) {
       return;
     }
+
     LoginClientUserModel oLoginClientUserModel =
         await ProviderLogin.loginProvider(
             widget.oTextEditingControllerUser.text,
@@ -135,12 +140,14 @@ class _SessionPageState extends State<SessionPage> {
       if (widget.tipo == 1) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => oLoginClientUserModel.datos!.firstLogin == 1
-                ? UpdatePasswordPage()
+                ? UpdatePasswordPage(
+                    token: oLoginClientUserModel.token!, tipo: widget.tipo)
                 : HomeClient()));
       } else {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => oLoginClientUserModel.datos!.firstLogin == 1
-                ? UpdatePasswordPage()
+                ? UpdatePasswordPage(
+                    token: oLoginClientUserModel.token!, tipo: widget.tipo)
                 : HomeUser()));
       }
 

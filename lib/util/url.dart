@@ -35,3 +35,11 @@ const url_read_all_transfer = "${url_base}/transfers_pen_all";
 const url_update_estado_fail = "${url_base}/update_estado_fail";
 const url_update_estado_install = "${url_base}/update_estado_install";
 const url_update_estado_transfer = "${url_base}/update_estado_transfers";
+
+const url_update_password = "${url_base}/update_pass";
+
+const url_update_password_user = "${url_base}/update_pass_user";
+
+const url_profile_client = "${url_base}/profile_client";
+
+const url_update_profile_client = "${url_base}/update_profile_client";

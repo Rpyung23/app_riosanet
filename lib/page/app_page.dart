@@ -32,7 +32,10 @@ class AppPage extends StatelessWidget {
             fontFamily: 'Avenir'),
         debugShowCheckedModeBanner: false,
         routes: {
-          'update_pass': (_) => UpdatePasswordPage(),
+          'update_pass': (_) => UpdatePasswordPage(
+                token: "",
+                tipo: 0,
+              ),
           'speed_test_page': (_) => SpeedTestPage(),
           'tip_page': (_) => TipPage(),
           'login_page': (_) => LoginPage(),
