@@ -1,6 +1,8 @@
+import 'package:app_riosanet/page/user/detalle_fail_user.dart';
 import 'package:app_riosanet/provider/ProviderFail.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
+import '../../model/fail_pen_all/dato_fail_pen_model.dart';
 import '../../model/fail_pen_all/fail_pen_all_model.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
@@ -54,6 +56,7 @@ class _FailPenUserState extends State<FailPenUser> {
         }
 
         return _getItemFailPen(
+            widget.oFailAllPenModel!.datos![item],
             widget.oFailAllPenModel!.datos![item].nombre,
             widget.oFailAllPenModel!.datos![item].tarea,
             widget.oFailAllPenModel!.datos![item].nombreTecnico,
@@ -64,7 +67,7 @@ class _FailPenUserState extends State<FailPenUser> {
     );
   }
 
-  _getItemFailPen(name, tarea, tecnico, cel, lat, lng) {
+  _getItemFailPen(DatoFailPenAllModel oF, name, tarea, tecnico, cel, lat, lng) {
     return Column(
       children: [
         ListTile(
@@ -74,7 +77,11 @@ class _FailPenUserState extends State<FailPenUser> {
           subtitle: Text(name == null ? "TICKET CLIENTE" : "TECNICO : ${name}"),
           trailing: IconButton(
               onPressed: () {
-                openMap(lat, lng);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => DetalleFailPageUser(
+                          oDatoFailPenAllModel: oF,
+                        )));
+                //openMap(lat, lng);
               },
               icon: icon_see),
           /*leading: IconButton(
@@ -101,21 +108,5 @@ class _FailPenUserState extends State<FailPenUser> {
 
   Future<void> _refreshApi() async {
     await _initReadFailPenAll();
-  }
-
-  static Future<void> openMap(double lat, double lng) async {
-    Uri url = Uri.parse('geo:${lat},${lng}?q=${lat},${lng}');
-
-    // ignore: deprecated_member_use
-    if (await canLaunch(url.toString())) {
-      // ignore: deprecated_member_use
-      await launch(url.toString());
-    } else {
-      await LaunchApp.openApp(
-        androidPackageName: 'com.google.android.gms.maps',
-        iosUrlScheme: 'maps://',
-        openStore: true,
-      );
-    }
   }
 }

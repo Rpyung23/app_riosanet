@@ -11,12 +11,11 @@ import '../../model/model_response.dart';
 import '../../provider/ProviderClient.dart';
 import '../../util/icons.dart';
 import '../../util/string.dart';
+import '../map_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  Set<Marker> oMarker = Set();
-
   bool isLoading = true;
-  String oMarkerId = "MIPOSITION";
+
   ProviderClient oProviderClient = ProviderClient();
   cProfileModel oProfileModel = cProfileModel();
 
@@ -25,14 +24,7 @@ class ProfilePage extends StatefulWidget {
   TextEditingController oTextEditingControllerEmail = TextEditingController();
   TextEditingController oTextEditingControllerPhone = TextEditingController();
   TextEditingController oTextEditingControllerRef = TextEditingController();
-
-  Completer<GoogleMapController> oGoogleMapController =
-      Completer<GoogleMapController>();
-
-  CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
+  TextEditingController oTextEditingControllerLatLng = TextEditingController();
 
   ProfilePage({super.key});
 
@@ -41,8 +33,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  GoogleMapController? oMapController;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -141,9 +131,33 @@ class _ProfilePageState extends State<ProfilePage> {
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: color_primary)))),
         SizedBox(
+          height: marginSmallSmall,
+        ),
+        TextFormField(
+            controller: widget.oTextEditingControllerLatLng,
+            canRequestFocus: false,
+            onTap: () {
+              _updateMap();
+            },
+            decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.all(0),
+                prefixIcon: Icon(Icons.map),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: color_primary)),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: color_primary)),
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(color: color_primary)))),
+        /*SizedBox(
           height: marginSmall,
         ),
-        _getMapa(),
+        GestureDetector(
+          child: _getMapa(),
+          onTap: () {
+            
+          },
+        ),*/
         SizedBox(
           height: marginMedium,
         ),
@@ -163,28 +177,6 @@ class _ProfilePageState extends State<ProfilePage> {
           height: marginSmall,
         )
       ],
-    );
-  }
-
-  Widget _getMapa() {
-    return Container(
-      height: 300,
-      width: double.infinity,
-      clipBehavior: Clip.antiAlias,
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15))),
-      child: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: widget._kGooglePlex,
-        scrollGesturesEnabled: true,
-        zoomControlsEnabled: true,
-        markers: widget.oMarker,
-        onMapCreated: (GoogleMapController controller) {
-          oMapController = controller;
-          //widget.oGoogleMapController.complete(controller);
-          _readApiProfile();
-        },
-      ),
     );
   }
 
@@ -220,7 +212,12 @@ class _ProfilePageState extends State<ProfilePage> {
         widget.oTextEditingControllerRef.text =
             widget.oProfileModel.datos!.direccion!;
 
-        oMapController!.moveCamera(CameraUpdate.newLatLngZoom(
+        widget.oTextEditingControllerLatLng.text =
+            (widget.oProfileModel.datos!.latitude! +
+                " " +
+                widget.oProfileModel.datos!.longitude!);
+
+        /*oMapController!.moveCamera(CameraUpdate.newLatLngZoom(
             LatLng(double.parse(widget.oProfileModel.datos!.latitude!),
                 double.parse(widget.oProfileModel.datos!.longitude!)),
             15));
@@ -229,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
             draggable: true,
             position: LatLng(
                 double.parse(widget.oProfileModel.datos!.latitude!),
-                double.parse(widget.oProfileModel.datos!.longitude!))));
+                double.parse(widget.oProfileModel.datos!.longitude!))));*/
       }
     } catch (e) {
       print(e.toString());
@@ -248,8 +245,8 @@ class _ProfilePageState extends State<ProfilePage> {
             widget.oTextEditingControllerEmail.value.text,
             widget.oTextEditingControllerPhone.value.text,
             widget.oTextEditingControllerRef.value.text,
-            widget.oMarker.first.position.latitude,
-            widget.oMarker.first.position.longitude);
+            widget.oProfileModel.datos!.latitude!,
+            widget.oProfileModel.datos!.longitude!);
 
     widget.isLoading = false;
 
@@ -264,5 +261,18 @@ class _ProfilePageState extends State<ProfilePage> {
             oModelResponse.statusCode == 200 ? color_primary : color_danger,
         textColor: color_white,
         fontSize: textMedium);
+  }
+
+  _updateMap() async {
+    LatLng olatLng = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => MapPage(
+            latitud: double.parse(widget.oProfileModel.datos!.latitude!),
+            longitud: double.parse(widget.oProfileModel.datos!.longitude!))));
+
+    if (olatLng != null) {
+      widget.oProfileModel.datos!.latitude = olatLng.latitude.toString();
+      widget.oProfileModel.datos!.longitude = olatLng.longitude.toString();
+      setState(() {});
+    }
   }
 }

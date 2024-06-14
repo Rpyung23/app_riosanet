@@ -31,7 +31,7 @@ class _HomeUserState extends State<HomeUser> {
           title: Text(
             widget.current_index == 0
                 ? "INSTALACIONES PENDIENTES"
-                : widget.current_index == 0
+                : widget.current_index == 1
                     ? "FALLOS PENDIENTES"
                     : "CAMBIOS DE DOMICILIOS",
             style: TextStyle(color: color_white),

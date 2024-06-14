@@ -1,4 +1,3 @@
-import 'package:app_riosanet/page/client/mapa_client.dart';
 import 'package:app_riosanet/provider/ProviderTransfer.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
@@ -273,8 +272,8 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
   }
 
   _GetPositionDomicilio() async {
-    widget.oPosition = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => MapClient()));
+    /*widget.oPosition = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => MapClient()));*/
 
     if (widget.oPosition != null) {
       /*List<Placemark> placemarks = await placemarkFromCoordinates(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "534482738212",
+    "project_id": "riosanet-c51db",
+    "storage_bucket": "riosanet-c51db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534482738212:android:92fb50ea2fc673fad58cb1",
+        "android_client_info": {
+          "package_name": "com.riosanet.riosanet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU6ZhWNUntCGWCobdOTvpzRUDQG1DxzIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
