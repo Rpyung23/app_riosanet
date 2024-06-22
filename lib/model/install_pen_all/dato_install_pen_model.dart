@@ -11,19 +11,20 @@ class DatoInstallPenAll {
   String? notas;
   String? idTec;
   String? nombreTecnico;
+  int? estado;
 
-  DatoInstallPenAll({
-    this.id,
-    this.name,
-    this.cel,
-    this.dir,
-    this.ciudad,
-    this.tarea,
-    this.ref,
-    this.notas,
-    this.idTec,
-    this.nombreTecnico,
-  });
+  DatoInstallPenAll(
+      {this.id,
+      this.name,
+      this.cel,
+      this.dir,
+      this.ciudad,
+      this.tarea,
+      this.ref,
+      this.notas,
+      this.idTec,
+      this.nombreTecnico,
+      this.estado});
 
   factory DatoInstallPenAll.fromRawJson(String str) =>
       DatoInstallPenAll.fromJson(json.decode(str));
@@ -32,17 +33,19 @@ class DatoInstallPenAll {
 
   factory DatoInstallPenAll.fromJson(Map<String, dynamic> json) =>
       DatoInstallPenAll(
-        id: json["id"],
-        name: json["name"],
-        cel: json["cel"],
-        dir: json["dir"],
-        ciudad: json["ciudad"],
-        tarea: json["tarea"],
-        ref: json["ref"],
-        notas: json["notas"],
-        idTec: json["id_tec"],
-        nombreTecnico: json["nombre_tecnico"],
-      );
+          id: json["id"],
+          name: json["name"],
+          cel: json["cel"],
+          dir: json["dir"],
+          ciudad: json["ciudad"],
+          tarea: json["tarea"],
+          ref: json["ref"],
+          notas: json["notas"],
+          idTec: json["id_tec"],
+          nombreTecnico: json["nombre_tecnico"],
+          estado: json["estado"] == null || json["estado"] == 0
+              ? null
+              : json["estado"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -55,5 +58,6 @@ class DatoInstallPenAll {
         "notas": notas,
         "id_tec": idTec,
         "nombre_tecnico": nombreTecnico,
+        "estado": estado
       };
 }

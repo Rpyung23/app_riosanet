@@ -1,3 +1,4 @@
+import 'package:app_riosanet/page/user/detalle_install_user.dart';
 import 'package:app_riosanet/provider/ProviderInstall.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import '../../model/install_pen_all/intall_pen_all_model.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../widget/badge.dart';
 
 class InstallPenUser extends StatefulWidget {
   final SignatureController oSignatureController = SignatureController(
@@ -71,22 +74,37 @@ class _InstallPenUserState extends State<InstallPenUser> {
     );
   }
 
-  _getItemInstallPen(oD, name, tarea, tecnico, cel) {
+  _getItemInstallPen(DatoInstallPenAll oD, name, tarea, tecnico, cel) {
     return Column(
       children: [
         ListTile(
           dense: true,
           title: Text(name),
           contentPadding: EdgeInsets.all(0),
-          subtitle: Text(tarea),
+          subtitle: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(tarea),
+              BadgeComponent(
+                title: oD!.estado == null || oD!.estado! == 0
+                    ? "EN ESPERA"
+                    : "EN PROCESO",
+                color_background: oD!.estado == null || oD!.estado! == 0
+                    ? color_secondary
+                    : color_success,
+              ),
+            ],
+          ),
           trailing: IconButton(
               onPressed: () {
-                launchUrl(Uri.parse('tel://$cel'));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) =>
+                        DetalleInstallPageUser(oDatoInstallPenAll: oD)));
+                //launchUrl(Uri.parse('tel://$cel'));
               },
               icon: icon_see),
-          onTap: () {
-            _showModalInstallTermin(oD);
-          },
         ),
         Divider(height: 1, thickness: 1, color: color_primary)
       ],
@@ -101,44 +119,6 @@ class _InstallPenUserState extends State<InstallPenUser> {
 
   Future<void> _refreshApi() async {
     await _initReadInstallPenAll();
-  }
-
-  _showModalInstallTermin(DatoInstallPenAll oD) {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("${oD.name}"),
-          content: Container(
-            child: _getSignaure(),
-            height: 250,
-            width: 250,
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                "GUARDAR",
-                style: TextStyle(color: color_white),
-              ),
-              style: ElevatedButton.styleFrom(backgroundColor: color_primary),
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  _getSignaure() {
-    widget.oSignatureController.clear();
-    return Signature(
-      controller: widget.oSignatureController,
-      dynamicPressureSupported: true,
-      width: 300,
-      height: 300,
-      backgroundColor: color_black,
-    );
   }
 
   @override

@@ -12,6 +12,8 @@ class DatoFailPenAllModel {
   String? direccion;
   String? latUsuario;
   String? lngUsuario;
+  int? level;
+  int? estado;
 
   DatoFailPenAllModel(
       {this.id,
@@ -24,7 +26,9 @@ class DatoFailPenAllModel {
       this.direccion,
       this.latUsuario,
       this.lngUsuario,
-      this.movil});
+      this.movil,
+      this.level,
+      this.estado});
 
   factory DatoFailPenAllModel.fromRawJson(String str) =>
       DatoFailPenAllModel.fromJson(json.decode(str));
@@ -33,20 +37,21 @@ class DatoFailPenAllModel {
 
   factory DatoFailPenAllModel.fromJson(Map<String, dynamic> json) =>
       DatoFailPenAllModel(
-        id: json["id"],
-        cedula: json["cedula"] == null ? 'S/N' : json["cedula"],
-        tarea: json["tarea"] == null ? 'S/N' : json["tarea"],
-        notaFallo: json["nota_fallo"] == null ? 'S/N' : json["nota_fallo"],
-        idTec: json["id_tec"] == null ? "" : json["id_tec"],
-        nombreTecnico: json["nombre_tecnico"] == null
-            ? "AUTOTECNICO"
-            : json["nombre_tecnico"],
-        nombre: json["nombre"] == null ? 'AUTOTECNICO' : json["nombre"],
-        direccion: json["direccion"] == null ? 'S/N' : json["direccion"],
-        latUsuario: json["lat_usuario"] == null ? "0" : json["lat_usuario"],
-        lngUsuario: json["lng_usuario"] == null ? "0" : json["lng_usuario"],
-        movil: json["movil"] == null ? "" : json["movil"],
-      );
+          id: json["id"],
+          cedula: json["cedula"] == null ? 'S/N' : json["cedula"],
+          tarea: json["tarea"] == null ? 'S/N' : json["tarea"],
+          notaFallo: json["nota_fallo"] == null ? 'S/N' : json["nota_fallo"],
+          idTec: json["id_tec"] == null ? "" : json["id_tec"],
+          nombreTecnico: json["nombre_tecnico"] == null
+              ? "AUTOTECNICO"
+              : json["nombre_tecnico"],
+          nombre: json["nombre"] == null ? '' : json["nombre"],
+          direccion: json["direccion"] == null ? 'S/N' : json["direccion"],
+          latUsuario: json["lat_usuario"] == null ? "0" : json["lat_usuario"],
+          lngUsuario: json["lng_usuario"] == null ? "0" : json["lng_usuario"],
+          movil: json["movil"] == null ? "" : json["movil"],
+          level: json["level"] == null ? 1 : json["level"],
+          estado: json["estado"] == null ? 1 : json["estado"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -59,6 +64,8 @@ class DatoFailPenAllModel {
         "direccion": direccion,
         "lat_usuario": latUsuario,
         "lng_usuario": lngUsuario,
-        "movil": movil
+        "movil": movil,
+        "level": level,
+        "estado": estado
       };
 }

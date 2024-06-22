@@ -7,6 +7,7 @@ import '../model/fail_pen_all_client/fail_pen_all_client_model.dart';
 import '../model/list_type_fail/list_type_fail_model.dart';
 import '../model/model_response.dart';
 import '../util/secure_store.dart';
+import '../util/showtoastdialog.dart';
 import '../util/url.dart';
 
 class ProviderFail {
@@ -76,6 +77,34 @@ class ProviderFail {
           body: jsonEncode({'tarea': name_fail, 'notas': notes_fail}));
       return ModelResponse.fromRawJson(oResponse.body);
     } catch (e) {
+      return ModelResponse(statusCode: 400, msm: e.toString());
+    }
+  }
+
+  static Future<ModelResponse> updateFail(
+      estado, nota, evidencia_url, url_firma, id) async {
+    try {
+      SecureStore oSecureStore = new SecureStore();
+      headersApi['x-access-token'] = await oSecureStore.readToken();
+
+      http.Response oResponse =
+          await http.put(Uri.parse(url_update_estado_fail),
+              headers: headersApi,
+              encoding: encondingApi,
+              body: jsonEncode({
+                'estado': estado,
+                'nota': nota,
+                'evidencia_url': evidencia_url,
+                'url_firma': url_firma,
+                'id_fail': id
+              }));
+      print(oResponse.body);
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast('El fallo ha sido actualizado exitosamente.');
+      return ModelResponse.fromRawJson(oResponse.body);
+    } catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
       return ModelResponse(statusCode: 400, msm: e.toString());
     }
   }

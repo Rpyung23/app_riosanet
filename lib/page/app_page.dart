@@ -4,6 +4,7 @@ import 'package:app_riosanet/page/session_page.dart';
 import 'package:app_riosanet/page/speed_test_page.dart';
 import 'package:app_riosanet/page/user/install_pen_user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../util/color.dart';
 import 'client/fail_page.dart';
@@ -31,6 +32,7 @@ class AppPage extends StatelessWidget {
             useMaterial3: true,
             fontFamily: 'Avenir'),
         debugShowCheckedModeBanner: false,
+        builder: EasyLoading.init(),
         routes: {
           'update_pass': (_) => UpdatePasswordPage(
                 token: "",

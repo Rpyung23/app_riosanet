@@ -11,6 +11,7 @@ import '../../model/model_response.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
 import '../../util/string.dart';
+import '../../widget/badge.dart';
 
 class FailClientPage extends StatefulWidget {
   final oGlobalKeyFail = GlobalKey<FormState>();
@@ -92,7 +93,26 @@ class _FailClientPageState extends State<FailClientPage> {
               },
               icon: icon_close),
       title: Text(oDatoFailAllPenClientModel!.tarea!),
-      subtitle: Text(oDatoFailAllPenClientModel!.direccion!),
+      subtitle: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(oDatoFailAllPenClientModel!.direccion!),
+          BadgeComponent(
+            title: oDatoFailAllPenClientModel!.level! == 1
+                ? "BAJO"
+                : oDatoFailAllPenClientModel!.level! == 2
+                    ? "MEDIO"
+                    : "ALTO",
+            color_background: oDatoFailAllPenClientModel!.level! == 1
+                ? color_success
+                : oDatoFailAllPenClientModel!.level! == 2
+                    ? color_primary
+                    : color_danger,
+          )
+        ],
+      ),
       /*trailing: oDatoFailAllPenClientModel.estado == 1
           ? icon_pen
           : oDatoFailAllPenClientModel.estado == 2

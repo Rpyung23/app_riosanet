@@ -9,6 +9,8 @@ import '../../util/icons.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../widget/badge.dart';
+
 class FailPenUser extends StatefulWidget {
   FailAllPenModel? oFailAllPenModel;
 
@@ -74,7 +76,37 @@ class _FailPenUserState extends State<FailPenUser> {
           dense: true,
           contentPadding: EdgeInsets.all(0),
           title: Text(tarea),
-          subtitle: Text(name == null ? "TICKET CLIENTE" : "TECNICO : ${name}"),
+          subtitle: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name == null ? "TICKET CLIENTE" : "CLIENTE : ${name}"),
+              Row(
+                children: [
+                  BadgeComponent(
+                    title: oF!.level! == 1
+                        ? "BAJO"
+                        : oF!.level! == 2
+                            ? "MEDIO"
+                            : "ALTO",
+                    color_background: oF!.level! == 1
+                        ? color_success
+                        : oF!.level! == 2
+                            ? color_primary
+                            : color_danger,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  BadgeComponent(
+                      title: oF.estado == 1 ? "EN ESPERA" : "EN PROCESO",
+                      color_background:
+                          oF.estado == 1 ? color_primary : color_success)
+                ],
+              )
+            ],
+          ),
           trailing: IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(

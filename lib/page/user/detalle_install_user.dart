@@ -1,38 +1,36 @@
 import 'dart:io';
-
+import 'package:app_riosanet/provider/ProviderInstall.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:app_riosanet/util/color.dart';
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../model/fail_pen_all/dato_fail_pen_model.dart';
-import '../../provider/ProviderFail.dart';
+import '../../model/install_pen_all/dato_install_pen_model.dart';
 import '../../util/dimens.dart';
 import '../../util/firebase_utils.dart';
 import '../../util/icons.dart';
 import '../../util/showtoastdialog.dart';
 
-class DetalleFailPageUser extends StatefulWidget {
+class DetalleInstallPageUser extends StatefulWidget {
   String img_url = "";
-  int? estadofail = null;
+  int? estadoInstall = null;
 
-  DatoFailPenAllModel oDatoFailPenAllModel;
+  DatoInstallPenAll oDatoInstallPenAll;
 
-  DetalleFailPageUser({required this.oDatoFailPenAllModel});
+  DetalleInstallPageUser({required this.oDatoInstallPenAll});
 
   TextEditingController oTextEditingControllerName = TextEditingController();
   TextEditingController oTextEditingControllerFail = TextEditingController();
   TextEditingController oTextEditingControllerRef = TextEditingController();
   TextEditingController oTextEditingControllerPhone = TextEditingController();
   TextEditingController oTextEditingControllerAnot = TextEditingController();
+  TextEditingController oTextEditingControllerDir = TextEditingController();
 
   @override
-  State<DetalleFailPageUser> createState() => _DetalleFailPageUserState();
+  State<DetalleInstallPageUser> createState() => _DetalleInstallPageUserState();
 }
 
-class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
+class _DetalleInstallPageUserState extends State<DetalleInstallPageUser> {
   @override
   void initState() {
     // TODO: implement initState
@@ -47,7 +45,7 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
         backgroundColor: color_primary,
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
-          "Detalle del fallo",
+          "Detalle Instalación",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -94,29 +92,6 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
           height: 25,
         ),
         TextFormField(
-          controller: widget.oTextEditingControllerRef,
-          decoration: InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.all(0),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: color_primary)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: color_primary)),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: color_primary)),
-              suffixIcon: IconButton(
-                  onPressed: () {
-                    openMap(
-                        double.parse(widget.oDatoFailPenAllModel.latUsuario!),
-                        double.parse(widget.oDatoFailPenAllModel.latUsuario!));
-                  },
-                  icon: Icon(Iconsax.search_favorite)),
-              prefixIcon: Icon(Iconsax.map)),
-        ),
-        SizedBox(
-          height: 25,
-        ),
-        TextFormField(
           controller: widget.oTextEditingControllerPhone,
           decoration: InputDecoration(
               isDense: true,
@@ -129,11 +104,45 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
                   borderSide: BorderSide(color: color_primary)),
               suffixIcon: IconButton(
                   onPressed: () {
-                    launchUrl(Uri.parse(
-                        'tel://${widget.oDatoFailPenAllModel.movil}'));
+                    launchUrl(
+                        Uri.parse('tel://${widget.oDatoInstallPenAll.cel}'));
                   },
                   icon: Icon(Iconsax.call)),
               prefixIcon: Icon(Iconsax.mobile)),
+        ),
+        SizedBox(
+          height: 25,
+        ),
+        TextFormField(
+          controller: widget.oTextEditingControllerDir,
+          maxLines: 2,
+          decoration: InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.all(0),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: color_primary)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: color_primary)),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: color_primary)),
+              prefixIcon: Icon(Iconsax.map)),
+        ),
+        SizedBox(
+          height: 25,
+        ),
+        TextFormField(
+          controller: widget.oTextEditingControllerRef,
+          maxLines: 2,
+          decoration: InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.all(0),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: color_primary)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: color_primary)),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: color_primary)),
+              prefixIcon: Icon(Iconsax.note)),
         ),
         SizedBox(
           height: 25,
@@ -146,22 +155,22 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
                 width: 1, // Ancho del borde
               )),
           child: DropdownButton(
-              value: widget.estadofail,
+              value: widget.estadoInstall,
               isDense: false,
               isExpanded: true,
               alignment: Alignment.center,
               items: [
                 DropdownMenuItem(
-                  value: 2,
+                  value: 1,
                   child: Text("   En Proceso"),
                 ),
                 DropdownMenuItem(
-                  value: 3,
+                  value: 2,
                   child: Text("   Terminado"),
                 )
               ],
               onChanged: (value) {
-                widget.estadofail = value;
+                widget.estadoInstall = value;
                 setState(() {});
               }),
         ),
@@ -169,7 +178,7 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
           height: 25,
         ),
         Visibility(
-            visible: widget.estadofail == 3 ? true : false,
+            visible: widget.estadoInstall == 2 ? true : false,
             child: TextFormField(
               maxLines: 3,
               controller: widget.oTextEditingControllerAnot,
@@ -187,12 +196,12 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
                   prefixIcon: Icon(Iconsax.note)),
             )),
         Visibility(
-            visible: widget.estadofail == 3 ? true : false,
+            visible: widget.estadoInstall == 2 ? true : false,
             child: SizedBox(
               height: 25,
             )),
         Visibility(
-            visible: widget.estadofail == 3 ? true : false,
+            visible: widget.estadoInstall == 2 ? true : false,
             child: GestureDetector(
               child: getFoto(),
               onTap: () {
@@ -205,22 +214,20 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
         ElevatedButton(
             onPressed: () {
               ShowToastDialog.showLoader();
-              print(widget.oDatoFailPenAllModel.toRawJson());
-              if (widget.estadofail == 2) {
-                ProviderFail.updateFail(
-                    widget.estadofail,
+              print(widget.oDatoInstallPenAll.toRawJson());
+              if (widget.estadoInstall == 1) {
+                ProviderInstall.updateInstall(
+                    widget.estadoInstall,
+                    widget.img_url,
                     widget.oTextEditingControllerAnot.value.text,
-                    '',
-                    '',
-                    widget.oDatoFailPenAllModel.id);
+                    widget.oDatoInstallPenAll.id);
               } else {
                 if (widget.img_url != null && widget.img_url.isNotEmpty) {
-                  ProviderFail.updateFail(
-                      widget.estadofail,
-                      widget.oTextEditingControllerAnot.value.text,
+                  ProviderInstall.updateInstall(
+                      widget.estadoInstall,
                       widget.img_url,
-                      '',
-                      widget.oDatoFailPenAllModel.id);
+                      widget.oTextEditingControllerAnot.value.text,
+                      widget.oDatoInstallPenAll.id);
                 } else {
                   ShowToastDialog.showToast('Ingresar imagen  / evidencia.');
                 }
@@ -264,36 +271,25 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
   }
 
   llenarDatos() {
-    widget.estadofail = widget.oDatoFailPenAllModel.estado! == 1
-        ? null
-        : widget.oDatoFailPenAllModel.estado!;
+    widget.estadoInstall = widget.oDatoInstallPenAll.estado;
+
+    ///widget.oDatoInstallPenAll.estado!;
 
     widget.oTextEditingControllerName.text =
-        "${widget.oDatoFailPenAllModel.nombre}";
+        "${widget.oDatoInstallPenAll.name}";
+
     widget.oTextEditingControllerFail.text =
-        "${widget.oDatoFailPenAllModel.tarea}";
-    widget.oTextEditingControllerRef.text =
-        "${widget.oDatoFailPenAllModel.direccion}";
+        "${widget.oDatoInstallPenAll.tarea}";
+
+    widget.oTextEditingControllerRef.text = "${widget.oDatoInstallPenAll.ref}";
+
     widget.oTextEditingControllerPhone.text =
-        "${widget.oDatoFailPenAllModel.movil}";
+        "${widget.oDatoInstallPenAll.cel}";
+
     widget.oTextEditingControllerAnot.text =
-        "${widget.oDatoFailPenAllModel.notaFallo}";
-  }
+        "${widget.oDatoInstallPenAll.notas}";
 
-  static Future<void> openMap(double lat, double lng) async {
-    Uri url = Uri.parse('geo:${lat},${lng}?q=${lat},${lng}');
-
-    // ignore: deprecated_member_use
-    if (await canLaunch(url.toString())) {
-      // ignore: deprecated_member_use
-      await launch(url.toString());
-    } else {
-      await LaunchApp.openApp(
-        androidPackageName: 'com.google.android.gms.maps',
-        iosUrlScheme: 'maps://',
-        openStore: true,
-      );
-    }
+    widget.oTextEditingControllerDir.text = "${widget.oDatoInstallPenAll.dir}";
   }
 
   pickFile() async {
