@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:app_riosanet/page/user/detalle_domicilio.dart';
 import 'package:app_riosanet/util/string.dart';
+import 'package:app_riosanet/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:radio_group_v2/radio_group_v2.dart';
@@ -14,7 +16,10 @@ import '../../util/icons.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../widget/badge.dart';
+
 class DomicilioPenUser extends StatefulWidget {
+  bool initApiRest = true;
   TransferPenAllModel? oTransferAllClientModel;
 
   RadioGroupController myControllerRG = RadioGroupController();
@@ -37,13 +42,18 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            body: Container(
-      padding: EdgeInsets.only(
-          top: marginSmallSmall,
-          left: marginSmallSmall,
-          right: marginSmallSmall),
-      child: RefreshIndicator(child: _getBody(), onRefresh: _refreshApi),
-    )));
+            body: widget.initApiRest
+                ? Center(
+                    child: LoadingComponent(),
+                  )
+                : Container(
+                    padding: EdgeInsets.only(
+                        top: marginSmallSmall,
+                        left: marginSmallSmall,
+                        right: marginSmallSmall),
+                    child: RefreshIndicator(
+                        child: _getBody(), onRefresh: _refreshApi),
+                  )));
   }
 
   Widget _getBody() {
@@ -82,14 +92,32 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
             title: Text(tarea == null ? "SIN TAREA" : tarea),
             contentPadding: EdgeInsets.all(0),
             dense: true,
-            subtitle:
-                Text(name == null ? "TICKET CLIENTE" : "TECNICO : ${name}"),
-            onTap: () {
+            subtitle: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name == null ? "TICKET CLIENTE" : "CLIENTE : ${name}"),
+                BadgeComponent(
+                  title: oT!.estado == null || oT!.estado! == 1
+                      ? "EN ESPERA"
+                      : "EN PROCESO",
+                  color_background: oT!.estado == null || oT!.estado! == 1
+                      ? color_secondary
+                      : color_success,
+                )
+              ],
+            ),
+            /*onTap: () {
               _showAlertProgress(oT);
-            },
+            },*/
             trailing: IconButton(
                 onPressed: () {
-                  openMap(lat, lng);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => DetalleDomicilioPageUser(
+                            oDatoTransferAllPen: oT,
+                          )));
+                  //openMap(lat, lng);
                 },
                 icon:
                     icon_see) /*,
@@ -109,8 +137,11 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
   }
 
   _initReadTransferPenAll() async {
+    widget.initApiRest = true;
+    setState(() {});
     widget.oTransferAllClientModel = null;
     widget.oTransferAllClientModel = await ProviderTransfer.readTransferAll();
+    widget.initApiRest = false;
     setState(() {});
   }
 
@@ -131,77 +162,6 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
         iosUrlScheme: 'maps://',
         openStore: true,
       );
-    }
-  }
-
-  _showAlertProgress(DatoTransferAllPen oT) {
-    //widget.myControllerRG.selectAt(oT.estado);
-
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            surfaceTintColor: color_white,
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  _updateEstadoDomicilio(oT);
-                },
-                child: Text(
-                  "Guardar Cambios",
-                  style: TextStyle(color: color_white),
-                ),
-                style: ElevatedButton.styleFrom(backgroundColor: color_primary),
-              )
-            ],
-            content: Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  Text(oT.ref!),
-                  SizedBox(
-                    height: marginSmallSmall,
-                  ),
-                  RadioGroup(
-                    controller: widget.myControllerRG,
-                    values: oListaEstado,
-                    indexOfDefault: 0,
-                    labelBuilder: (value) {
-                      return Text(value.detalle_estado);
-                    },
-                    orientation: RadioGroupOrientation.horizontal,
-                    decoration: RadioGroupDecoration(
-                      spacing: 10.0,
-                      labelStyle: TextStyle(
-                        color: Colors.blue,
-                      ),
-                      activeColor: Colors.amber,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  _updateEstadoDomicilio(DatoTransferAllPen oT) async {
-    ModelResponse oM = await ProviderTransfer.updateEstadoTransfer(
-        widget.myControllerRG.value.estado, oT.id!);
-
-    if (oM.statusCode == 200) {
-      Navigator.of(context).pop();
-      _initReadTransferPenAll();
-    } else {
-      Fluttertoast.showToast(
-          msg: oM.msm!,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: color_danger,
-          textColor: color_white,
-          fontSize: textMedium);
     }
   }
 }

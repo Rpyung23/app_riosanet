@@ -11,6 +11,7 @@ import '../../model/transfer_all_client/transfer_all_client.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
 import '../../util/string.dart';
+import '../../widget/badge.dart';
 
 class UpdateDomicilioPageClient extends StatefulWidget {
   LatLng? oPosition;
@@ -90,13 +91,31 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
       contentPadding: EdgeInsets.all(0),
       title: Text('CAMBIO DE DOMICLIO'),
       leading: oDatoTransferClient.estado == 3
-          ? null
+          ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
           : IconButton(
               onPressed: () {
                 showAlertDeleteDomicilio(oDatoTransferClient.id!);
               },
               icon: icon_close),
-      subtitle: Text(oDatoTransferClient!.dir!),
+      subtitle: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(oDatoTransferClient!.dir!),
+          BadgeComponent(
+              title: oDatoTransferClient.estado == 1
+                  ? "EN ESPERA"
+                  : oDatoTransferClient.estado == 2
+                      ? "EN PROCESO"
+                      : "TERMINADO",
+              color_background: oDatoTransferClient.estado == 1
+                  ? color_primary
+                  : oDatoTransferClient.estado == 2
+                      ? color_secondary
+                      : color_success)
+        ],
+      ),
       enabled: oDatoTransferClient.estado == 3 ? false : true,
       /*trailing: oDatoTransferClient.estado == 1
           ? icon_pen

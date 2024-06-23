@@ -10,14 +10,12 @@ import '../../util/icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../widget/badge.dart';
+import '../../widget/loading.dart';
 
 class InstallPenUser extends StatefulWidget {
-  final SignatureController oSignatureController = SignatureController(
-    penStrokeWidth: 3,
-    penColor: color_white,
-    exportBackgroundColor: color_white,
-  );
   InstallAllPenModel? oInstallAllPenModel;
+
+  bool initApiRest = true;
 
   InstallPenUser();
 
@@ -30,7 +28,7 @@ class _InstallPenUserState extends State<InstallPenUser> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.oSignatureController.clear();
+
     _initReadInstallPenAll();
   }
 
@@ -38,13 +36,18 @@ class _InstallPenUserState extends State<InstallPenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Container(
-        padding: EdgeInsets.only(
-            top: marginSmallSmall,
-            left: marginSmallSmall,
-            right: marginSmallSmall),
-        child: RefreshIndicator(child: _getBody(), onRefresh: _refreshApi),
-      ),
+      body: widget.initApiRest
+          ? Center(
+              child: LoadingComponent(),
+            )
+          : Container(
+              padding: EdgeInsets.only(
+                  top: marginSmallSmall,
+                  left: marginSmallSmall,
+                  right: marginSmallSmall),
+              child:
+                  RefreshIndicator(child: _getBody(), onRefresh: _refreshApi),
+            ),
     ));
   }
 
@@ -99,9 +102,7 @@ class _InstallPenUserState extends State<InstallPenUser> {
           ),
           trailing: IconButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) =>
-                        DetalleInstallPageUser(oDatoInstallPenAll: oD)));
+                launchDetalle(oD);
                 //launchUrl(Uri.parse('tel://$cel'));
               },
               icon: icon_see),
@@ -112,8 +113,11 @@ class _InstallPenUserState extends State<InstallPenUser> {
   }
 
   _initReadInstallPenAll() async {
+    widget.initApiRest = true;
+    setState(() {});
     widget.oInstallAllPenModel = null;
     widget.oInstallAllPenModel = await ProviderInstall.readInstallPenAll();
+    widget.initApiRest = false;
     setState(() {});
   }
 
@@ -125,6 +129,11 @@ class _InstallPenUserState extends State<InstallPenUser> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    widget.oSignatureController.dispose();
+  }
+
+  launchDetalle(oD) async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => DetalleInstallPageUser(oDatoInstallPenAll: oD)));
+    _initReadInstallPenAll();
   }
 }

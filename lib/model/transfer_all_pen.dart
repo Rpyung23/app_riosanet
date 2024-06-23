@@ -47,6 +47,9 @@ class DatoTransferAllPen {
   double? lngTraspaso;
   String? idTec;
   String? nombreTecnico;
+  String? anotaciones;
+  String? img_evidencia;
+  String? img_firma;
 
   DatoTransferAllPen({
     this.id,
@@ -60,6 +63,9 @@ class DatoTransferAllPen {
     this.lngTraspaso,
     this.idTec,
     this.nombreTecnico,
+    this.anotaciones,
+    this.img_evidencia,
+    this.img_firma,
   });
 
   factory DatoTransferAllPen.fromRawJson(String str) =>
@@ -84,6 +90,10 @@ class DatoTransferAllPen {
             : json["lng_traspaso"],
         idTec: json["id_tec"],
         nombreTecnico: json["nombre_tecnico"],
+        anotaciones: json["anotaciones"] == null ? '' : json["anotaciones"],
+        img_evidencia:
+            json["img_evidencia"] == null ? '' : json["img_evidencia"],
+        img_firma: json["img_firma"] == null ? '' : json["img_firma"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -98,5 +108,8 @@ class DatoTransferAllPen {
         "lng_traspaso": lngTraspaso,
         "id_tec": idTec,
         "nombre_tecnico": nombreTecnico,
+        "anotaciones": anotaciones,
+        "img_evidencia": img_evidencia,
+        "img_firma": img_firma,
       };
 }

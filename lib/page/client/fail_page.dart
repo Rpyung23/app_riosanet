@@ -2,6 +2,7 @@ import 'package:app_riosanet/provider/ProviderFail.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:quickalert/quickalert.dart';
 
 import '../../model/fail_pen_all_client/fail_pen_all_client_model.dart';
@@ -86,7 +87,7 @@ class _FailClientPageState extends State<FailClientPage> {
       contentPadding: EdgeInsets.all(0),
       enabled: oDatoFailAllPenClientModel.estado == 3 ? false : true,
       leading: oDatoFailAllPenClientModel.estado == 3
-          ? null
+          ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
           : IconButton(
               onPressed: () {
                 showAlertDeleteFail(oDatoFailAllPenClientModel.id!);
@@ -99,17 +100,35 @@ class _FailClientPageState extends State<FailClientPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(oDatoFailAllPenClientModel!.direccion!),
-          BadgeComponent(
-            title: oDatoFailAllPenClientModel!.level! == 1
-                ? "BAJO"
-                : oDatoFailAllPenClientModel!.level! == 2
-                    ? "MEDIO"
-                    : "ALTO",
-            color_background: oDatoFailAllPenClientModel!.level! == 1
-                ? color_success
-                : oDatoFailAllPenClientModel!.level! == 2
-                    ? color_primary
-                    : color_danger,
+          Row(
+            children: [
+              BadgeComponent(
+                title: oDatoFailAllPenClientModel!.level! == 1
+                    ? "BAJO"
+                    : oDatoFailAllPenClientModel!.level! == 2
+                        ? "MEDIO"
+                        : "ALTO",
+                color_background: oDatoFailAllPenClientModel!.level! == 1
+                    ? color_success
+                    : oDatoFailAllPenClientModel!.level! == 2
+                        ? color_primary
+                        : color_danger,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              BadgeComponent(
+                  title: oDatoFailAllPenClientModel.estado == 1
+                      ? "EN ESPERA"
+                      : oDatoFailAllPenClientModel.estado == 2
+                          ? "EN PROCESO"
+                          : "TERMINADO",
+                  color_background: oDatoFailAllPenClientModel.estado == 1
+                      ? color_primary
+                      : oDatoFailAllPenClientModel.estado == 2
+                          ? color_secondary
+                          : color_success)
+            ],
           )
         ],
       ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_riosanet/util/showtoastdialog.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/model_response.dart';
@@ -73,19 +74,30 @@ class ProviderTransfer {
     }
   }
 
-  static Future<ModelResponse> updateEstadoTransfer(int estado, int id) async {
+  static Future<ModelResponse> updateEstadoTransfer(
+      estado, anotaciones, img_evidencia, img_firma, id_traspaso) async {
     try {
-      print("ID : " + id.toString());
+      ShowToastDialog.showLoader();
+      //print("ID : " + id.toString());
       SecureStore oSecureStore = new SecureStore();
       headersApi['x-access-token'] = await oSecureStore.readToken();
-      http.Response oResponse = await http.put(
-          Uri.parse(url_update_estado_transfer),
-          body: jsonEncode({"estado": estado, "_id": id}),
-          encoding: encondingApi,
-          headers: headersApi);
-      print(oResponse.body);
+      http.Response oResponse =
+          await http.put(Uri.parse(url_update_estado_transfer),
+              body: jsonEncode({
+                "estado": estado,
+                "anotaciones": anotaciones,
+                "img_evidencia": img_evidencia,
+                "img_firma": img_firma,
+                "id_traspaso": id_traspaso
+              }),
+              encoding: encondingApi,
+              headers: headersApi);
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast("Estado actualizado con éxito");
       return ModelResponse.fromRawJson(oResponse.body);
     } catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
       print(e.toString());
       return ModelResponse(statusCode: 400, msm: e.toString());
     }

@@ -69,8 +69,10 @@ class _HomeUserState extends State<HomeUser> {
         activeIndex: widget.current_index,
         notchSmoothness: NotchSmoothness.verySmoothEdge,
         onTap: (index) {
-          widget.current_index = index;
-          setState(() {});
+          if (widget.current_index != index) {
+            widget.current_index = index;
+            setState(() {});
+          }
         });
   }
 }

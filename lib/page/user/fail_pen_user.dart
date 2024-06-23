@@ -1,6 +1,7 @@
 import 'package:app_riosanet/page/user/detalle_fail_user.dart';
 import 'package:app_riosanet/provider/ProviderFail.dart';
 import 'package:app_riosanet/util/color.dart';
+import 'package:app_riosanet/widget/loading.dart';
 import 'package:flutter/material.dart';
 import '../../model/fail_pen_all/dato_fail_pen_model.dart';
 import '../../model/fail_pen_all/fail_pen_all_model.dart';
@@ -13,7 +14,7 @@ import '../../widget/badge.dart';
 
 class FailPenUser extends StatefulWidget {
   FailAllPenModel? oFailAllPenModel;
-
+  bool initApiRest = true;
   FailPenUser({super.key});
 
   @override
@@ -32,13 +33,18 @@ class _FailPenUserState extends State<FailPenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            body: Container(
-      padding: EdgeInsets.only(
-          top: marginSmallSmall,
-          left: marginSmallSmall,
-          right: marginSmallSmall),
-      child: RefreshIndicator(child: _getBody(), onRefresh: _refreshApi),
-    )));
+            body: widget.initApiRest
+                ? Center(
+                    child: LoadingComponent(),
+                  )
+                : Container(
+                    padding: EdgeInsets.only(
+                        top: marginSmallSmall,
+                        left: marginSmallSmall,
+                        right: marginSmallSmall),
+                    child: RefreshIndicator(
+                        child: _getBody(), onRefresh: _refreshApi),
+                  )));
   }
 
   Widget _getBody() {
@@ -109,10 +115,7 @@ class _FailPenUserState extends State<FailPenUser> {
           ),
           trailing: IconButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => DetalleFailPageUser(
-                          oDatoFailPenAllModel: oF,
-                        )));
+                lauchDetalle(oF);
                 //openMap(lat, lng);
               },
               icon: icon_see),
@@ -132,13 +135,24 @@ class _FailPenUserState extends State<FailPenUser> {
   }
 
   _initReadFailPenAll() async {
+    widget.initApiRest = true;
+    setState(() {});
     widget.oFailAllPenModel = null;
     print("FALLOS TECNICO");
     widget.oFailAllPenModel = await ProviderFail.readFailPenAll();
+    widget.initApiRest = false;
     setState(() {});
   }
 
   Future<void> _refreshApi() async {
     await _initReadFailPenAll();
+  }
+
+  lauchDetalle(oF) async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => DetalleFailPageUser(
+              oDatoFailPenAllModel: oF,
+            )));
+    _initReadFailPenAll();
   }
 }

@@ -48,19 +48,25 @@ class DatoTransferClient {
   String? idTec;
   String? nombreTecnico;
 
-  DatoTransferClient({
-    this.id,
-    this.cedula,
-    this.nombre,
-    this.cel,
-    this.dir,
-    this.ref,
-    this.latTraspaso,
-    this.estado,
-    this.lngTraspaso,
-    this.idTec,
-    this.nombreTecnico,
-  });
+  String? anotaciones;
+  String? img_evidencia;
+  String? img_firma;
+
+  DatoTransferClient(
+      {this.id,
+      this.cedula,
+      this.nombre,
+      this.cel,
+      this.dir,
+      this.ref,
+      this.latTraspaso,
+      this.estado,
+      this.lngTraspaso,
+      this.idTec,
+      this.nombreTecnico,
+      this.anotaciones,
+      this.img_evidencia,
+      this.img_firma});
 
   factory DatoTransferClient.fromRawJson(String str) =>
       DatoTransferClient.fromJson(json.decode(str));
@@ -82,6 +88,10 @@ class DatoTransferClient {
             json["lng_traspaso"] == null ? 0 : json["lng_traspaso"]?.toDouble(),
         idTec: json["id_tec"],
         nombreTecnico: json["nombre_tecnico"],
+        anotaciones: json["anotaciones"] == null ? '' : json["anotaciones"],
+        img_evidencia:
+            json["img_evidencia"] == null ? '' : json["img_evidencia"],
+        img_firma: json["img_firma"] == null ? '' : json["img_firma"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -96,5 +106,8 @@ class DatoTransferClient {
         "lng_traspaso": lngTraspaso,
         "id_tec": idTec,
         "nombre_tecnico": nombreTecnico,
+        "anotaciones": anotaciones,
+        "img_evidencia": img_evidencia,
+        "img_firma": img_firma,
       };
 }
