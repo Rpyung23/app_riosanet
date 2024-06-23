@@ -82,7 +82,7 @@ class ProviderFail {
   }
 
   static Future<ModelResponse> updateFail(
-      estado, nota, evidencia_url, url_firma, id) async {
+      estado, nota, evidencia_url, url_firma, id, fcm) async {
     try {
       SecureStore oSecureStore = new SecureStore();
       headersApi['x-access-token'] = await oSecureStore.readToken();
@@ -96,7 +96,8 @@ class ProviderFail {
                 'nota': nota,
                 'evidencia_url': evidencia_url,
                 'url_firma': url_firma,
-                'id_fail': id
+                'id_fail': id,
+                'fcm': fcm
               }));
       print(oResponse.body);
       ShowToastDialog.closeLoader();

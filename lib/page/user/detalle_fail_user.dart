@@ -212,7 +212,8 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
                     widget.oTextEditingControllerAnot.value.text,
                     '',
                     '',
-                    widget.oDatoFailPenAllModel.id);
+                    widget.oDatoFailPenAllModel.id,
+                    widget.oDatoFailPenAllModel.fcm);
               } else {
                 if (widget.img_url != null && widget.img_url.isNotEmpty) {
                   ProviderFail.updateFail(
@@ -220,7 +221,8 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
                       widget.oTextEditingControllerAnot.value.text,
                       widget.img_url,
                       '',
-                      widget.oDatoFailPenAllModel.id);
+                      widget.oDatoFailPenAllModel.id,
+                      widget.oDatoFailPenAllModel.fcm);
                 } else {
                   ShowToastDialog.showToast('Ingresar imagen  / evidencia.');
                 }

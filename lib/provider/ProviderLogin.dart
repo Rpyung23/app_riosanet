@@ -4,6 +4,7 @@ import 'package:app_riosanet/model/login/login_model.dart';
 import 'package:app_riosanet/util/url.dart';
 
 import '../model/model_response.dart';
+import '../util/secure_store.dart';
 
 class ProviderLogin {
   static Future<ModelResponse> updatePasswordProvider(tipo, token, pass) async {
@@ -23,6 +24,7 @@ class ProviderLogin {
   }
 
   static Future<LoginClientUserModel> loginProvider(user, pass, tipo) async {
+    SecureStore oSecureStore = SecureStore();
     print("USUARIO : ${user}");
     print("PASS : ${pass}");
     print("TIPO : ${tipo}");
@@ -33,7 +35,11 @@ class ProviderLogin {
           Uri.parse(tipo == 1 ? url_login_client : url_login_user),
           headers: headersApi,
           encoding: encondingApi,
-          body: jsonEncode({"user": user, "pass": pass}));
+          body: jsonEncode({
+            "user": user,
+            "pass": pass,
+            "fcm": await oSecureStore.readFCM()
+          }));
 
       return LoginClientUserModel.fromRawJson(oResponse.body);
     } catch (e) {

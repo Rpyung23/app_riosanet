@@ -14,6 +14,7 @@ class DatoFailPenAllModel {
   String? lngUsuario;
   int? level;
   int? estado;
+  String? fcm;
 
   DatoFailPenAllModel(
       {this.id,
@@ -28,7 +29,8 @@ class DatoFailPenAllModel {
       this.lngUsuario,
       this.movil,
       this.level,
-      this.estado});
+      this.estado,
+      this.fcm});
 
   factory DatoFailPenAllModel.fromRawJson(String str) =>
       DatoFailPenAllModel.fromJson(json.decode(str));
@@ -51,7 +53,8 @@ class DatoFailPenAllModel {
           lngUsuario: json["lng_usuario"] == null ? "0" : json["lng_usuario"],
           movil: json["movil"] == null ? "" : json["movil"],
           level: json["level"] == null ? 1 : json["level"],
-          estado: json["estado"] == null ? 1 : json["estado"]);
+          estado: json["estado"] == null ? 1 : json["estado"],
+          fcm: json["fcm"] == null || json["fcm"] == "" ? null : json["fcm"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -66,6 +69,7 @@ class DatoFailPenAllModel {
         "lng_usuario": lngUsuario,
         "movil": movil,
         "level": level,
-        "estado": estado
+        "estado": estado,
+        "fcm": fcm
       };
 }

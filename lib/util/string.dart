@@ -33,6 +33,7 @@ const String txt_ingrese_type_Fail = "Por favor, seleccione un tipo de fallo";
 const String obscureText = "*";
 
 const String secure_token = "TOKENRIOSANET";
+const String fc_secure_token = "FCTOKENRIOSANET";
 const String profile_riosanet = "PROFILECLIENTUSERRIOSANET";
 
 const String confirmTxtButton = "Aceptar";
@@ -44,6 +45,9 @@ const String mi_perfil = "MI PERFIL";
 const String pndiente = "PENDIENTE";
 const String en_proceso = "EN PROCESO";
 const String en_terminado = "TERMINADO";
+
+const String channelId = "com.riosanet.riosanet";
+const String channelName = "com.riosanet.riosanet";
 
 List<cEstadoModel> oListaEstado = [
   cEstadoModel(estado: 2, detalle_estado: 'EN PROCESO'),

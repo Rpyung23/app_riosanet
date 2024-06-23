@@ -5,6 +5,7 @@ import 'package:app_riosanet/util/dimens.dart';
 import 'package:app_riosanet/util/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../model/login/login_model.dart';
 import '../provider/ProviderLogin.dart';
@@ -28,6 +29,13 @@ class SessionPage extends StatefulWidget {
 }
 
 class _SessionPageState extends State<SessionPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
