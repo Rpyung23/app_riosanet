@@ -13,9 +13,11 @@ import '../../util/dimens.dart';
 import '../../util/firebase_utils.dart';
 import '../../util/icons.dart';
 import '../../util/showtoastdialog.dart';
+import '../siganture_page.dart';
 
 class DetalleDomicilioPageUser extends StatefulWidget {
   String img_url = "";
+  String img_url_signature = "";
   int? estadoDomicilio = null;
 
   DatoTransferAllPen oDatoTransferAllPen;
@@ -197,9 +199,20 @@ class _DetalleDomicilioPageUserState extends State<DetalleDomicilioPageUser> {
         Visibility(
             visible: widget.estadoDomicilio == 3 ? true : false,
             child: GestureDetector(
-              child: getFoto(),
+              child: getFoto(widget.img_url, false),
               onTap: () {
                 pickFile();
+              },
+            )),
+        SizedBox(
+          height: 25,
+        ),
+        Visibility(
+            visible: widget.estadoDomicilio == 3 ? true : false,
+            child: GestureDetector(
+              child: getFoto(widget.img_url_signature, true),
+              onTap: () {
+                getUrlSignature();
               },
             )),
         SizedBox(
@@ -213,16 +226,19 @@ class _DetalleDomicilioPageUserState extends State<DetalleDomicilioPageUser> {
                 ProviderTransfer.updateEstadoTransfer(widget.estadoDomicilio,
                     '', '', '', widget.oDatoTransferAllPen.id);
               } else {
-                if (widget.img_url != null && widget.img_url.isNotEmpty) {
+                if (widget.img_url != null &&
+                    widget.img_url.isNotEmpty &&
+                    widget.img_url_signature != null &&
+                    widget.img_url_signature.isNotEmpty) {
                   ProviderTransfer.updateEstadoTransfer(
                       widget.estadoDomicilio,
                       widget.oTextEditingControllerAnot.value.text,
                       widget.img_url,
-                      '',
+                      widget.img_url_signature,
                       widget.oDatoTransferAllPen.id);
                 } else {
                   ShowToastDialog.showToast(
-                      "Por favor subir una imagen / evidencia");
+                      'Ingresar evidencia y firma digital.');
                 }
               }
             },
@@ -243,24 +259,31 @@ class _DetalleDomicilioPageUserState extends State<DetalleDomicilioPageUser> {
     );
   }
 
-  getFoto() {
+  getFoto(String img, bool isSignature) {
     return Container(
       height: 200,
       width: 200,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
-      child: widget.img_url.isEmpty
+      child: img.isEmpty
           ? Image.asset(
-              "assets/add_image.jpg",
+              !isSignature ? "assets/add_image.jpg" : "assets/signature.png",
               fit: BoxFit.cover,
               repeat: ImageRepeat.noRepeat,
             )
           : Image.network(
-              widget.img_url,
-              fit: BoxFit.cover,
+              img,
+              fit: BoxFit.fill,
               repeat: ImageRepeat.noRepeat,
             ),
     );
+  }
+
+  getUrlSignature() async {
+    widget.img_url_signature = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => SignaturePage()));
+    print("URL FIRMA DIGITAL : ${widget.img_url_signature}");
+    setState(() {});
   }
 
   llenarDatos() {

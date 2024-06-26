@@ -10,9 +10,11 @@ import '../../util/dimens.dart';
 import '../../util/firebase_utils.dart';
 import '../../util/icons.dart';
 import '../../util/showtoastdialog.dart';
+import '../siganture_page.dart';
 
 class DetalleInstallPageUser extends StatefulWidget {
   String img_url = "";
+  String img_url_signature = "";
   int? estadoInstall = null;
 
   DatoInstallPenAll oDatoInstallPenAll;
@@ -203,9 +205,20 @@ class _DetalleInstallPageUserState extends State<DetalleInstallPageUser> {
         Visibility(
             visible: widget.estadoInstall == 2 ? true : false,
             child: GestureDetector(
-              child: getFoto(),
+              child: getFoto(widget.img_url, false),
               onTap: () {
                 pickFile();
+              },
+            )),
+        SizedBox(
+          height: 25,
+        ),
+        Visibility(
+            visible: widget.estadoInstall == 2 ? true : false,
+            child: GestureDetector(
+              child: getFoto(widget.img_url_signature, true),
+              onTap: () {
+                getUrlSignature();
               },
             )),
         SizedBox(
@@ -220,16 +233,22 @@ class _DetalleInstallPageUserState extends State<DetalleInstallPageUser> {
                     widget.estadoInstall,
                     widget.img_url,
                     widget.oTextEditingControllerAnot.value.text,
-                    widget.oDatoInstallPenAll.id);
+                    widget.oDatoInstallPenAll.id,
+                    '');
               } else {
-                if (widget.img_url != null && widget.img_url.isNotEmpty) {
+                if (widget.img_url != null &&
+                    widget.img_url.isNotEmpty &&
+                    widget.img_url_signature != null &&
+                    widget.img_url_signature.isNotEmpty) {
                   ProviderInstall.updateInstall(
                       widget.estadoInstall,
                       widget.img_url,
                       widget.oTextEditingControllerAnot.value.text,
-                      widget.oDatoInstallPenAll.id);
+                      widget.oDatoInstallPenAll.id,
+                      widget.img_url_signature);
                 } else {
-                  ShowToastDialog.showToast('Ingresar imagen  / evidencia.');
+                  ShowToastDialog.showToast(
+                      'Ingresar evidencia y firma digital.');
                 }
               }
             },
@@ -250,21 +269,21 @@ class _DetalleInstallPageUserState extends State<DetalleInstallPageUser> {
     );
   }
 
-  getFoto() {
+  getFoto(String img, bool isSignature) {
     return Container(
       height: 200,
       width: 200,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
-      child: widget.img_url.isEmpty
+      child: img.isEmpty
           ? Image.asset(
-              "assets/add_image.jpg",
+              !isSignature ? "assets/add_image.jpg" : "assets/signature.png",
               fit: BoxFit.cover,
               repeat: ImageRepeat.noRepeat,
             )
           : Image.network(
-              widget.img_url,
-              fit: BoxFit.cover,
+              img,
+              fit: BoxFit.fill,
               repeat: ImageRepeat.noRepeat,
             ),
     );
@@ -301,5 +320,12 @@ class _DetalleInstallPageUserState extends State<DetalleInstallPageUser> {
           File(image.path), File(image.path).path.split('/').last);
       setState(() {});
     }
+  }
+
+  getUrlSignature() async {
+    widget.img_url_signature = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => SignaturePage()));
+    print("URL FIRMA DIGITAL : ${widget.img_url_signature}");
+    setState(() {});
   }
 }

@@ -113,10 +113,7 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
             },*/
             trailing: IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => DetalleDomicilioPageUser(
-                            oDatoTransferAllPen: oT,
-                          )));
+                  _showDetallePen(oT);
                   //openMap(lat, lng);
                 },
                 icon:
@@ -163,5 +160,13 @@ class _DomicilioPenUserState extends State<DomicilioPenUser> {
         openStore: true,
       );
     }
+  }
+
+  _showDetallePen(oT) async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => DetalleDomicilioPageUser(
+              oDatoTransferAllPen: oT,
+            )));
+    _initReadTransferPenAll();
   }
 }

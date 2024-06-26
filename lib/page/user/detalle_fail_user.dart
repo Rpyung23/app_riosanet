@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_riosanet/page/siganture_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
@@ -16,6 +17,7 @@ import '../../util/showtoastdialog.dart';
 
 class DetalleFailPageUser extends StatefulWidget {
   String img_url = "";
+  String img_url_signature = "";
   int? estadofail = null;
 
   DatoFailPenAllModel oDatoFailPenAllModel;
@@ -194,9 +196,20 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
         Visibility(
             visible: widget.estadofail == 3 ? true : false,
             child: GestureDetector(
-              child: getFoto(),
+              child: getFoto(widget.img_url, false),
               onTap: () {
                 pickFile();
+              },
+            )),
+        SizedBox(
+          height: 25,
+        ),
+        Visibility(
+            visible: widget.estadofail == 3 ? true : false,
+            child: GestureDetector(
+              child: getFoto(widget.img_url_signature, true),
+              onTap: () {
+                getUrlSignature();
               },
             )),
         SizedBox(
@@ -215,16 +228,20 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
                     widget.oDatoFailPenAllModel.id,
                     widget.oDatoFailPenAllModel.fcm);
               } else {
-                if (widget.img_url != null && widget.img_url.isNotEmpty) {
+                if (widget.img_url != null &&
+                    widget.img_url.isNotEmpty &&
+                    widget.img_url_signature != null &&
+                    widget.img_url_signature.isNotEmpty) {
                   ProviderFail.updateFail(
                       widget.estadofail,
                       widget.oTextEditingControllerAnot.value.text,
                       widget.img_url,
-                      '',
+                      widget.img_url_signature,
                       widget.oDatoFailPenAllModel.id,
                       widget.oDatoFailPenAllModel.fcm);
                 } else {
-                  ShowToastDialog.showToast('Ingresar imagen  / evidencia.');
+                  ShowToastDialog.showToast(
+                      'Ingresar evidencia y firma digital.');
                 }
               }
             },
@@ -245,21 +262,21 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
     );
   }
 
-  getFoto() {
+  getFoto(String img, bool isSignature) {
     return Container(
       height: 200,
       width: 200,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
-      child: widget.img_url.isEmpty
+      child: img.isEmpty
           ? Image.asset(
-              "assets/add_image.jpg",
+              !isSignature ? "assets/add_image.jpg" : "assets/signature.png",
               fit: BoxFit.cover,
               repeat: ImageRepeat.noRepeat,
             )
           : Image.network(
-              widget.img_url,
-              fit: BoxFit.cover,
+              img,
+              fit: BoxFit.fill,
               repeat: ImageRepeat.noRepeat,
             ),
     );
@@ -307,5 +324,12 @@ class _DetalleFailPageUserState extends State<DetalleFailPageUser> {
           File(image.path), File(image.path).path.split('/').last);
       setState(() {});
     }
+  }
+
+  getUrlSignature() async {
+    widget.img_url_signature = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => SignaturePage()));
+    print("URL FIRMA DIGITAL : ${widget.img_url_signature}");
+    setState(() {});
   }
 }

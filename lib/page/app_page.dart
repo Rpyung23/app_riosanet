@@ -11,6 +11,7 @@ import 'client/fail_page.dart';
 import 'client/tip_page.dart';
 import 'login_page.dart';
 import 'client/profile_page.dart';
+import 'siganture_page.dart';
 import 'update_password.dart';
 
 class AppPage extends StatelessWidget {
@@ -48,7 +49,8 @@ class AppPage extends StatelessWidget {
               ),
           'profile_page': (_) => ProfilePage(),
           'fail_client_page': (_) => FailClientPage(),
-          'update_domiclio_client_page': (_) => UpdateDomicilioPageClient()
+          'update_domiclio_client_page': (_) => UpdateDomicilioPageClient(),
+          'signature': (_) => SignaturePage()
         },
         initialRoute: 'login_page');
   }

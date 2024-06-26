@@ -60,4 +60,51 @@ class FirebaseUtils {
 
     return downloadUrl.toString();
   }
+
+  static Future<String> uploadSignatureImageToFireStorage(
+      File image, String fileName) async {
+    var uuid = Uuid();
+
+    Reference upload =
+        FirebaseStorage.instance.ref().child('signature/${uuid.v1()}');
+
+    final metadata = SettableMetadata(contentType: 'image/jpeg');
+
+    UploadTask? uploadTask;
+    print(image);
+
+    uploadTask = upload.putFile(image);
+
+    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress =
+              100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+          print("Handle unsuccessful uploads");
+          break;
+        case TaskState.success:
+          print("Handle successful uploads on complete");
+          // ...
+          break;
+      }
+    });
+
+    //return "";
+    print("up start");
+
+    var downloadUrl =
+        await (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
+    print("up start got url");
+
+    return downloadUrl.toString();
+  }
 }

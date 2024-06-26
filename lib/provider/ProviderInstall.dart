@@ -23,21 +23,22 @@ class ProviderInstall {
   }
 
   static Future<ModelResponse> updateInstall(
-      estado, url_img, notas, id_install) async {
+      estado, url_img, notas, id_install, url_firma) async {
     try {
       SecureStore oSecureStore = new SecureStore();
       headersApi['x-access-token'] = await oSecureStore.readToken();
 
-      http.Response oResponse = await http.put(
-          Uri.parse(url_update_estado_install),
-          headers: headersApi,
-          encoding: encondingApi,
-          body: jsonEncode({
-            'estado': estado,
-            'notas': notas,
-            'url_img': url_img,
-            'id_install': id_install
-          }));
+      http.Response oResponse =
+          await http.put(Uri.parse(url_update_estado_install),
+              headers: headersApi,
+              encoding: encondingApi,
+              body: jsonEncode({
+                'estado': estado,
+                'notas': notas,
+                'url_img': url_img,
+                'id_install': id_install,
+                'url_firma': url_firma
+              }));
       print(oResponse.body);
       ShowToastDialog.closeLoader();
       ShowToastDialog.showToast(
