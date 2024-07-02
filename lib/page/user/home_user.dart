@@ -3,6 +3,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:app_riosanet/page/user/fail_pen_user.dart';
 import 'package:app_riosanet/page/user/install_pen_user.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import '../../util/color.dart';
 import '../../util/dimens.dart';
 import '../../util/icons.dart';
@@ -28,6 +29,16 @@ class _HomeUserState extends State<HomeUser> {
           iconTheme: IconThemeData(color: color_white),
           backgroundColor: color_primary,
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _showAlert();
+                },
+                icon: Icon(
+                  Iconsax.logout,
+                  color: color_white,
+                ))
+          ],
           title: Text(
             widget.current_index == 0
                 ? "INSTALACIONES PENDIENTES"
@@ -73,6 +84,39 @@ class _HomeUserState extends State<HomeUser> {
             widget.current_index = index;
             setState(() {});
           }
+        });
+  }
+
+  _showAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Cerrar Sesión'),
+            content: Text('¿Está seguro que desea cerrar sesión?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Colors.red, // color rojo para el botón "Continuar"
+                ),
+                child: Text(
+                  'Continuar',
+                  style: TextStyle(color: color_white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).popAndPushNamed('login_page');
+                  // Lógica para cerrar sesión
+                },
+              ),
+            ],
+          );
         });
   }
 }

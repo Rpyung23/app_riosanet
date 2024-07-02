@@ -3,10 +3,12 @@ import 'package:app_riosanet/util/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 
+import '../../model/tip_model.dart';
 import '../../util/dimens.dart';
 
 class TipPage extends StatefulWidget {
-  const TipPage({super.key});
+  List<DatoTip> oDatoTip = [];
+  TipPage({super.key});
 
   @override
   State<TipPage> createState() => _TipPageState();
@@ -24,7 +26,7 @@ class _TipPageState extends State<TipPage> {
             style: TextStyle(color: color_white),
           ),
         ),
-        body: _getBodyTipPage());
+        body: widget.oDatoTip.length <= 0 ? Container() : _getBodyTipPage());
   }
 
   _getBodyTipPage() {
@@ -36,11 +38,7 @@ class _TipPageState extends State<TipPage> {
           autoPlay: true,
           slideIndicator: CircularSlideIndicator(),
         ),
-        items: [
-          './assets/tips/tip1.jpeg',
-          './assets/tips/tip2.jpeg',
-          './assets/tips/tip3.jpeg'
-        ].map((i) {
+        items: widget.oDatoTip.map((i) {
           return Builder(
             builder: (BuildContext context) {
               return Container(
@@ -51,8 +49,8 @@ class _TipPageState extends State<TipPage> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(radioSearch)),
-                  child: Image.asset(
-                    i,
+                  child: Image.network(
+                    i.urlTipo!,
                     repeat: ImageRepeat.noRepeat,
                     fit: BoxFit.fill,
                     filterQuality: FilterQuality.high,

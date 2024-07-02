@@ -43,3 +43,7 @@ const url_update_password_user = "${url_base}/update_pass_user";
 const url_profile_client = "${url_base}/profile_client";
 
 const url_update_profile_client = "${url_base}/update_profile_client";
+
+const url_tip = "${url_base}/tips";
+
+const url_advertising = "${url_base}/advertising";

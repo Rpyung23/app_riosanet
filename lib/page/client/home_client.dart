@@ -2,6 +2,9 @@ import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../../model/advertising_model.dart';
+import '../../model/tip_model.dart';
+import '../../provider/ProviderTip.dart';
 import '../../util/dimens.dart';
 import '../../util/string.dart';
 import '../../widget/bottom_navigation_client.dart';
@@ -9,6 +12,11 @@ import '../../widget/floatingbottonSupport.dart';
 import '../../widget/toolbar.dart';
 
 class HomeClient extends StatefulWidget {
+  List<DatoAdvertisingModel> oDatoAdvertisingModel = [];
+
+  //ProviderTip oProviderTip = ProviderTip();
+  //List<DatoAdvertisingModel> oDatoAdvertisingModel = [];
+
   HomeClient();
 
   @override
@@ -16,6 +24,13 @@ class HomeClient extends StatefulWidget {
 }
 
 class _HomeClientState extends State<HomeClient> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initAds();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -112,12 +127,20 @@ class _HomeClientState extends State<HomeClient> {
       mainAxisSpacing: 10,
       crossAxisCount: 2,
       children: <Widget>[
-        _getCardSpeedTest(),
-        Container(
+        StaggeredGridTile.count(
+            crossAxisCellCount: 2,
+            mainAxisCellCount: 1,
+            child: GestureDetector(
+              child: _getCardSpeedTest(),
+              onTap: () {
+                Navigator.of(context).pushNamed('speed_test_page');
+              },
+            )),
+        /*Container(
           padding: const EdgeInsets.all(8),
           color: Colors.teal[200],
           child: const Text('Heed not the rabble'),
-        ),
+        ),*/
         StaggeredGridTile.count(
           crossAxisCellCount: 4,
           mainAxisCellCount: 2,
@@ -149,7 +172,7 @@ class _HomeClientState extends State<HomeClient> {
             SizedBox(
               height: marginSmallSmall,
             ),
-            ElevatedButton(
+            /*ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed('speed_test_page');
               },
@@ -159,7 +182,7 @@ class _HomeClientState extends State<HomeClient> {
                     TextStyle(color: color_white, fontWeight: FontWeight.w700),
               ),
               style: ElevatedButton.styleFrom(backgroundColor: color_primary),
-            )
+            )*/
           ],
         ),
       ),
@@ -167,37 +190,42 @@ class _HomeClientState extends State<HomeClient> {
   }
 
   _getCarrusel() {
-    return FlutterCarousel(
-      options: CarouselOptions(
-        height: 400.0,
-        showIndicator: true,
-        autoPlay: true,
-        slideIndicator: CircularSlideIndicator(),
-      ),
-      items: [
-        './assets/p2.jpeg',
-        './assets/p3.jpeg',
-        './assets/p4.jpeg',
-        './assets/p5.jpeg',
-        './assets/p1.jpeg'
-      ].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(
-                    right: marginSmallSmall, bottom: marginSmall),
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(radioSearch)),
-                child: Image.asset(
-                  i,
-                  fit: BoxFit.cover,
-                ));
-          },
-        );
-      }).toList(),
-    );
+    return widget.oDatoAdvertisingModel.length == 0
+        ? Container()
+        : FlutterCarousel(
+            options: CarouselOptions(
+              height: 400.0,
+              showIndicator: true,
+              autoPlay: true,
+              slideIndicator: CircularSlideIndicator(),
+            ),
+            items: widget.oDatoAdvertisingModel.map((i) {
+              print(i.urlAnuncio);
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(
+                          right: marginSmallSmall, bottom: marginSmall),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(radioSearch)),
+                      child: Image.network(
+                        i.urlAnuncio!,
+                        fit: BoxFit.cover,
+                      ));
+                },
+              );
+            }).toList(),
+          );
+  }
+
+  _initAds() async {
+    cAdvertisingModel oT = await ProviderTip.readAdvertising();
+    if (oT.statusCode == 200) {
+      widget.oDatoAdvertisingModel = oT.datos!;
+    }
+    setState(() {});
   }
 }

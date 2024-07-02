@@ -23,13 +23,16 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-      children: [
-        _getfondo(),
-        Align(alignment: Alignment.bottomCenter, child: _getButtons(context))
-      ],
-    ));
+    return PopScope(
+        canPop: false,
+        child: Scaffold(
+            body: Stack(
+          children: [
+            _getfondo(),
+            Align(
+                alignment: Alignment.bottomCenter, child: _getButtons(context))
+          ],
+        )));
   }
 
   _getfondo() {

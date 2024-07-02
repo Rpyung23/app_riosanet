@@ -1,6 +1,7 @@
 import 'package:app_riosanet/util/color.dart';
 import 'package:app_riosanet/util/secure_store.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../model/login/data_login_model.dart';
 import '../util/dimens.dart';
@@ -22,15 +23,25 @@ class _ToolBarWidgetState extends State<ToolBarWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _initReadProfile();
+    //_initReadProfile();
   }
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: color_primary,
+      automaticallyImplyLeading: false,
       elevation: elevation,
-      leading: Container(
+      actions: [
+        IconButton(
+            onPressed: () {
+              _showAlert();
+            },
+            icon: Icon(
+              Iconsax.logout,
+              color: color_white,
+            ))
+      ] /*Container(
         margin: EdgeInsets.all(marginSmallSmall),
         child: CircleAvatar(
           radius: radioContainer,
@@ -38,11 +49,10 @@ class _ToolBarWidgetState extends State<ToolBarWidget> {
               ? "/"
               : widget.oDatosLoginModel!.nombre![0]),
         ),
-      ),
+      ),*/
+      ,
       title: Text(
-        widget.oDatosLoginModel == null
-            ? no_name
-            : widget.oDatosLoginModel!.nombre!,
+        "PORTAL MOVIL",
         style: TextStyle(color: color_white),
       ),
       centerTitle: false,
@@ -61,8 +71,40 @@ class _ToolBarWidgetState extends State<ToolBarWidget> {
       }
     }
   }
-}
 
+  _showAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Cerrar Sesión'),
+            content: Text('¿Está seguro que desea cerrar sesión?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Colors.red, // color rojo para el botón "Continuar"
+                ),
+                child: Text(
+                  'Continuar',
+                  style: TextStyle(color: color_white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).popAndPushNamed('login_page');
+                  // Lógica para cerrar sesión
+                },
+              ),
+            ],
+          );
+        });
+  }
+}
 /*class ToolBarWidget extends StatelessWidget implements PreferredSizeWidget {
   DatosLoginModel? oDatosLoginModel;
   ToolBarWidget({required this.oDatosLoginModel});
