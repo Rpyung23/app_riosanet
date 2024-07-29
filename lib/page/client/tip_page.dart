@@ -2,12 +2,16 @@ import 'package:app_riosanet/util/color.dart';
 import 'package:app_riosanet/util/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../model/tip_model.dart';
+import '../../provider/ProviderTip.dart';
 import '../../util/dimens.dart';
 
 class TipPage extends StatefulWidget {
-  List<DatoTip> oDatoTip = [];
+  bool apiRequest = true;
+  //List<DatoTip> oDatoTip = [];
+  cTipModel? oTipModel = cTipModel(statusCode: 400, datos: null);
   TipPage({super.key});
 
   @override
@@ -15,6 +19,13 @@ class TipPage extends StatefulWidget {
 }
 
 class _TipPageState extends State<TipPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    readTips();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +37,23 @@ class _TipPageState extends State<TipPage> {
             style: TextStyle(color: color_white),
           ),
         ),
-        body: widget.oDatoTip.length <= 0 ? Container() : _getBodyTipPage());
+        body: widget.apiRequest
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : widget.oTipModel!.datos == null
+                ? Container(
+                    child: Center(
+                      child: Text("NO EXISTEN TIP'S DISPONIBLES"),
+                    ),
+                  )
+                : _getBodyTipPage());
+  }
+
+  readTips() async {
+    widget.oTipModel = await ProviderTip.readTip();
+    widget.apiRequest = false;
+    setState(() {});
   }
 
   _getBodyTipPage() {
@@ -38,7 +65,7 @@ class _TipPageState extends State<TipPage> {
           autoPlay: true,
           slideIndicator: CircularSlideIndicator(),
         ),
-        items: widget.oDatoTip.map((i) {
+        items: widget.oTipModel!.datos!.map((i) {
           return Builder(
             builder: (BuildContext context) {
               return Container(
@@ -54,6 +81,9 @@ class _TipPageState extends State<TipPage> {
                     repeat: ImageRepeat.noRepeat,
                     fit: BoxFit.fill,
                     filterQuality: FilterQuality.high,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset('assets/no_image.png');
+                    },
                   ));
             },
           );

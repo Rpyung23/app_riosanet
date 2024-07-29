@@ -214,6 +214,10 @@ class _HomeClientState extends State<HomeClient> {
                       child: Image.network(
                         i.urlAnuncio!,
                         fit: BoxFit.cover,
+                        filterQuality: FilterQuality.high,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset('assets/no_image.png');
+                        },
                       ));
                 },
               );

@@ -11,7 +11,7 @@ class ProviderTip {
       http.Response oResponse = await http.get(Uri.parse(url_tip));
       return cTipModel.fromRawJson(oResponse.body);
     } catch (e) {
-      return cTipModel(statusCode: 400, datos: []);
+      return cTipModel(statusCode: 400, datos: null);
     }
   }
 
