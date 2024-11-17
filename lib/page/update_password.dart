@@ -20,10 +20,10 @@ class UpdatePasswordPage extends StatefulWidget {
 
   UpdatePasswordPage({required this.token, required this.tipo});
   @override
-  State<UpdatePasswordPage> createState() => _MyHomepageState();
+  State<UpdatePasswordPage> createState() => _UpdatePasswordPageState();
 }
 
-class _MyHomepageState extends State<UpdatePasswordPage> {
+class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   // regular expression to check if string
   RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
   double password_strength = 0;
@@ -82,7 +82,7 @@ class _MyHomepageState extends State<UpdatePasswordPage> {
           ),
         ),
       ),
-      canPop: false,
+      canPop: true,
     );
   }
 

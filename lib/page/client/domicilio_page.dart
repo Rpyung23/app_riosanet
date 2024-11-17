@@ -1,9 +1,10 @@
+// ignore_for_file: unused_local_variable, non_constant_identifier_names
+
 import 'package:app_riosanet/provider/ProviderTransfer.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../model/model_response.dart';
@@ -12,6 +13,10 @@ import '../../util/dimens.dart';
 import '../../util/icons.dart';
 import '../../util/string.dart';
 import '../../widget/badge.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+
+import 'create_domicilio_page.dart';
 
 class UpdateDomicilioPageClient extends StatefulWidget {
   LatLng? oPosition;
@@ -63,6 +68,8 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          /*Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => CreateDomicilioPage()));*/
           _ShowCreateDomiclio();
         },
         child: icon_add,
@@ -291,17 +298,33 @@ class _UpdateDomicilioPageClientState extends State<UpdateDomicilioPageClient> {
   }
 
   _GetPositionDomicilio() async {
+    Prediction? oPrediction = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: 'AIzaSyCMR83z2AyaiNJTfUHKechVpGh_MjLQvHA',
+      mode: Mode.overlay, // Mode.fullscreen
+      language: "es",
+    );
+
+    if (oPrediction != null) {
+      displayPrediction(oPrediction!);
+    }
+
     /*widget.oPosition = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => MapClient()));*/
+  }
+
+  Future<void> displayPrediction(Prediction p) async {
+    GoogleMapsPlaces places = GoogleMapsPlaces(
+        apiKey: 'AIzaSyCMR83z2AyaiNJTfUHKechVpGh_MjLQvHA',
+        apiHeaders: await const GoogleApiHeaders().getHeaders());
+
+    PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
+
+    widget.oPosition = LatLng(detail.result.geometry!.location.lat,
+        detail.result.geometry!.location.lng);
 
     if (widget.oPosition != null) {
-      /*List<Placemark> placemarks = await placemarkFromCoordinates(
-          widget.oPosition!.latitude, widget.oPosition!.longitude);*/
-
-      widget.oTextEditingControllerMapa.text =
-          (widget.oPosition!.latitude.toString() +
-              " " +
-              widget.oPosition!.longitude.toString());
+      widget.oTextEditingControllerMapa.text = detail.result.name;
 
       /*widget.oTextEditingControllerMapa.text = placemarks.length > 0
           ? (placemarks[0].thoroughfare! + "" + placemarks[1].thoroughfare!)

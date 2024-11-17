@@ -10,8 +10,10 @@ import 'package:iconsax/iconsax.dart';
 import '../../model/model_response.dart';
 import '../../provider/ProviderClient.dart';
 import '../../util/icons.dart';
+import '../../util/secure_store.dart';
 import '../../util/string.dart';
 import '../map_page.dart';
+import '../update_password.dart';
 
 class ProfilePage extends StatefulWidget {
   bool isLoading = true;
@@ -161,17 +163,48 @@ class _ProfilePageState extends State<ProfilePage> {
         SizedBox(
           height: marginMedium,
         ),
-        ElevatedButton(
-          onPressed: () {
-            _updateProfileApi();
-          },
-          child: Text(
-            text_save,
-            style: TextStyle(color: color_white, fontSize: textBigMedium),
+        Container(
+          height: 50,
+          child: Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    //_updateProfileApi();
+                    SecureStore oS = SecureStore();
+                    var token_ = await oS.readToken();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) =>
+                            UpdatePasswordPage(token: token_, tipo: 1)));
+                  },
+                  child: Text(
+                    'Actualizar Contraseña',
+                    style:
+                        TextStyle(color: color_white, fontSize: textBigMedium),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: color_primary,
+                      minimumSize: Size(double.infinity, altoMedium)),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                  child: ElevatedButton(
+                onPressed: () {
+                  _updateProfileApi();
+                },
+                child: Text(
+                  text_save,
+                  style: TextStyle(color: color_white, fontSize: textBigMedium),
+                ),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: color_secondary,
+                    minimumSize: Size(double.infinity, altoMedium)),
+              ))
+            ],
           ),
-          style: ElevatedButton.styleFrom(
-              backgroundColor: color_secondary,
-              minimumSize: Size(double.infinity, altoMedium)),
         ),
         SizedBox(
           height: marginSmall,
