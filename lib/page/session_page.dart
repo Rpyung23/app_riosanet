@@ -1,4 +1,5 @@
 import 'package:app_riosanet/page/client/home_client.dart';
+import 'package:app_riosanet/page/client/recovery_pass_page.dart';
 import 'package:app_riosanet/page/user/home_user.dart';
 import 'package:app_riosanet/util/color.dart';
 import 'package:app_riosanet/util/dimens.dart';
@@ -109,6 +110,24 @@ class _SessionPageState extends State<SessionPage> {
                       borderSide: BorderSide(color: color_primary)),
                   prefixIcon: icon_pass),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Visibility(
+                visible: widget.tipo == 1,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      child: Text("¿Olvidó la contraseña?"),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => RecoveryPassPage()));
+                      },
+                    )
+                  ],
+                )),
             SizedBox(
               height: 25,
             ),
